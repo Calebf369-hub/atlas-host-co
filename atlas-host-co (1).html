@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Atlas Host Co — Marrakech</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --sand: #f0e0cc; --sand-light: #f7ede0; --sand-dark: #e8d0b5;
+      --terra: #c95c3e; --terra-light: #d97455; --terra-dark: #a8402a;
+      --burgundy: #4a1c24; --warm-white: #faf5ee; --text-muted: #8a6a58;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--warm-white); color: var(--burgundy); font-family: 'Jost', sans-serif; font-weight: 300; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1000; opacity: 0.4; }
+
+    /* ─── LANG SELECTOR ─── */
+    .lang-selector { display: flex; align-items: center; gap: 6px; }
+    .lang-btn { background: none; border: none; cursor: pointer; font-family: 'Jost', sans-serif; font-size: 0.68rem; font-weight: 400; letter-spacing: 0.15em; color: var(--burgundy); opacity: 0.5; transition: opacity 0.2s; padding: 2px 4px; }
+    .lang-btn:hover, .lang-btn.active { opacity: 1; }
+    .lang-btn.active { font-weight: 500; }
+    .lang-divider { color: var(--text-muted); font-size: 0.6rem; opacity: 0.4; }
+
+    /* ─── WHATSAPP ─── */
+    .whatsapp-link { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .whatsapp-link:hover { color: var(--terra); }
+    .wa-badge { font-size: 0.6rem; letter-spacing: 0.12em; background: #25d366; color: #fff; padding: 2px 7px; border-radius: 2px; font-weight: 400; vertical-align: middle; }
+
+    /* ─── CITY GUIDE NAV BTN ─── */
+    .guide-nav-btn { background: none; border: 1px solid rgba(74,28,36,0.3); cursor: pointer; font-family: 'Jost', sans-serif; font-size: 0.68rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--burgundy); opacity: 0.7; transition: opacity 0.2s, border-color 0.2s, color 0.2s; padding: 6px 16px; }
+    .guide-nav-btn:hover { opacity: 1; border-color: var(--terra); color: var(--terra); }
+
+    /* ─── CITY GUIDE OVERLAY ─── */
+    .guide-overlay { position: fixed; inset: 0; z-index: 500; display: none; flex-direction: column; }
+    .guide-overlay.open { display: flex; }
+    .guide-panel-header { background: var(--burgundy); padding: 0 60px; display: flex; align-items: stretch; justify-content: space-between; flex-shrink: 0; box-shadow: 0 4px 24px rgba(74,28,36,0.3); }
+    .guide-panel-title { font-family: 'Cormorant Garamond', serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terra-light); display: flex; align-items: center; }
+
+    .guide-close { background: none; border: none; cursor: pointer; color: rgba(240,224,204,0.45); font-size: 1.3rem; padding: 0 0 0 28px; display: flex; align-items: center; transition: color 0.2s; }
+    .guide-close:hover { color: var(--sand); }
+    .guide-panel-body { flex: 1; overflow: hidden; position: relative; background: var(--warm-white); }
+    .guide-pane { position: absolute; inset: 0; }
+    
+    .guide-pane iframe { width: 100%; height: 100%; border: none; display: block; }
+
+    /* ─── RTL ─── */
+    body.rtl { direction: rtl; text-align: right; }
+    body.rtl .hero-left { padding: 140px 80px 80px 60px; }
+    body.rtl .btn-ghost { flex-direction: row-reverse; }
+    body.rtl .btn-ghost::after { content: '←'; }
+    body.rtl .pricing-list li { padding-left: 0; padding-right: 16px; }
+    body.rtl .pricing-list li::before { left: auto; right: 0; }
+    body.rtl .founders-row { flex-direction: row-reverse; }
+    body.rtl nav { flex-direction: row-reverse; }
+
+    /* ─── NAV ─── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 24px 60px; display: flex; justify-content: space-between; align-items: center; mix-blend-mode: multiply; }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--burgundy); text-decoration: none; }
+    .nav-links { display: flex; gap: 40px; list-style: none; align-items: center; }
+    .nav-links a { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--burgundy); text-decoration: none; opacity: 0.7; transition: opacity 0.3s; }
+    .nav-links a:hover { opacity: 1; }
+
+    /* ─── HERO ─── */
+    .hero { min-height: 100vh; background: var(--sand); position: relative; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+    .hero-arch-bg { position: absolute; bottom: -10%; left: 50%; transform: translateX(-50%); width: 900px; height: 900px; opacity: 0.06; pointer-events: none; }
+    .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 140px 60px 80px 80px; position: relative; z-index: 2; }
+    .hero-eyebrow { font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terra); margin-bottom: 32px; opacity: 0; animation: fadeUp 0.9s 0.2s forwards; }
+    .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.5rem, 6vw, 6rem); font-weight: 300; line-height: 1.05; color: var(--burgundy); margin-bottom: 32px; opacity: 0; animation: fadeUp 0.9s 0.4s forwards; }
+    .hero-title em { font-style: italic; color: var(--terra); }
+    .hero-body { font-size: 0.95rem; line-height: 1.9; color: var(--text-muted); max-width: 380px; margin-bottom: 56px; opacity: 0; animation: fadeUp 0.9s 0.6s forwards; }
+    .hero-cta-row { display: flex; align-items: center; gap: 32px; opacity: 0; animation: fadeUp 0.9s 0.8s forwards; }
+    .btn-primary { display: inline-block; background: var(--terra); color: var(--warm-white); font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none; padding: 18px 40px; transition: background 0.3s, transform 0.2s; border: none; cursor: pointer; }
+    .btn-primary:hover { background: var(--terra-dark); transform: translateY(-2px); }
+    .btn-ghost { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--burgundy); text-decoration: none; opacity: 0.6; transition: opacity 0.3s; display: flex; align-items: center; gap: 10px; }
+    .btn-ghost::after { content: '→'; font-size: 1rem; transition: transform 0.3s; }
+    .btn-ghost:hover { opacity: 1; }
+    .btn-ghost:hover::after { transform: translateX(4px); }
+    .hero-right { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; padding: 120px 60px 80px 40px; }
+    .arch-card { position: relative; width: 340px; opacity: 0; animation: fadeIn 1.2s 0.5s forwards; }
+    .stat-card { position: absolute; background: var(--warm-white); padding: 16px 24px; box-shadow: 0 8px 40px rgba(74,28,36,0.1); }
+    .stat-card-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 400; color: var(--terra); line-height: 1; }
+    .stat-card-label { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
+    .stat-card--left { left: -60px; top: 40%; animation: fadeRight 0.9s 1s forwards; opacity: 0; }
+    .stat-card--bottom { right: -20px; bottom: 8%; animation: fadeLeft 0.9s 1.1s forwards; opacity: 0; }
+
+    /* ─── TICKER ─── */
+    .ticker { background: var(--burgundy); color: var(--sand); padding: 14px 0; overflow: hidden; white-space: nowrap; }
+    .ticker-inner { display: inline-block; animation: ticker 22s linear infinite; }
+    .ticker-item { display: inline-block; font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; padding: 0 48px; }
+    .ticker-dot { color: var(--terra-light); margin-right: 48px; }
+
+    /* ─── SERVICES ─── */
+    .services { background: var(--warm-white); padding: 120px 80px; position: relative; }
+    .section-label { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--terra); margin-bottom: 20px; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 300; line-height: 1.15; color: var(--burgundy); max-width: 500px; margin-bottom: 80px; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .service-card { background: var(--sand-light); padding: 48px 40px; position: relative; overflow: hidden; transition: background 0.4s; }
+    .service-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--terra); transition: width 0.4s; }
+    .service-card:hover { background: var(--sand); }
+    .service-card:hover::after { width: 100%; }
+    .service-num { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: var(--terra); opacity: 0.3; line-height: 1; margin-bottom: 24px; }
+    .service-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--burgundy); margin-bottom: 16px; }
+    .service-desc { font-size: 0.85rem; line-height: 1.8; color: var(--text-muted); }
+
+    /* ─── PRICING ─── */
+    .pricing { background: var(--sand); padding: 120px 80px; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 40px; }
+    .pricing-card { background: var(--sand-light); padding: 52px 40px; display: flex; flex-direction: column; gap: 16px; }
+    .pricing-card--featured { background: var(--warm-white); }
+    .pricing-card--management { background: var(--burgundy); color: var(--sand); }
+    .pricing-tag { font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terra); }
+    .pricing-card--management .pricing-tag { color: var(--terra-light); }
+    .pricing-price { font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 300; line-height: 1; color: var(--burgundy); }
+    .pricing-card--management .pricing-price { color: var(--sand); }
+    .pricing-name { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; color: var(--burgundy); }
+    .pricing-card--management .pricing-name { color: var(--sand-light); }
+    .pricing-desc { font-size: 0.85rem; line-height: 1.8; color: var(--text-muted); flex-grow: 1; }
+    .pricing-card--management .pricing-desc { color: rgba(240,224,204,0.7); }
+    .pricing-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+    .pricing-list li { font-size: 0.8rem; color: var(--text-muted); padding-left: 16px; position: relative; }
+    .pricing-list li::before { content: '—'; position: absolute; left: 0; color: var(--terra); font-size: 0.7rem; }
+    .pricing-card--management .pricing-list li { color: rgba(240,224,204,0.75); }
+    .pricing-card--management .pricing-list li::before { color: var(--terra-light); }
+    .pricing-card--management .btn-primary { background: var(--terra); align-self: flex-start; }
+    .pricing-note { font-size: 0.8rem; color: var(--text-muted); text-align: center; font-style: italic; }
+
+    /* ─── ABOUT ─── */
+    .about { background: var(--sand); padding: 120px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-visual { position: relative; height: 500px; }
+    .about-block-1 { position: absolute; top: 0; left: 0; width: 72%; height: 76%; background: linear-gradient(135deg, var(--terra) 0%, var(--terra-dark) 100%); }
+    .about-block-2 { position: absolute; bottom: 0; right: 0; width: 56%; height: 58%; background: var(--sand-dark); display: flex; align-items: center; justify-content: center; }
+    .about-arch-icon { width: 80px; height: 80px; }
+    .about-label { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--terra); margin-bottom: 20px; }
+    .about-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 300; line-height: 1.2; color: var(--burgundy); margin-bottom: 32px; }
+    .about-body { font-size: 0.9rem; line-height: 1.9; color: var(--text-muted); margin-bottom: 48px; }
+    .founders-row { display: flex; gap: 32px; align-items: center; margin-bottom: 40px; padding: 32px 0; border-top: 1px solid var(--sand-dark); border-bottom: 1px solid var(--sand-dark); }
+    .founder-divider { width: 1px; height: 60px; background: var(--sand-dark); flex-shrink: 0; }
+    .founder-name { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; color: var(--burgundy); margin-bottom: 4px; }
+    .founder-title { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+    .founder-contact { font-size: 0.82rem; color: var(--terra); }
+
+    /* ─── CONTACT ─── */
+    .contact { background: var(--warm-white); padding: 120px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .contact-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 300; line-height: 1.1; color: var(--burgundy); margin-bottom: 24px; }
+    .contact-body { font-size: 0.9rem; line-height: 1.9; color: var(--text-muted); margin-bottom: 48px; }
+    .contact-info { display: flex; flex-direction: column; gap: 20px; }
+    .contact-info-item { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); }
+    .contact-info-item strong { display: block; font-size: 0.68rem; letter-spacing: 0.3em; color: var(--terra); margin-bottom: 4px; }
+    .contact-form { display: flex; flex-direction: column; gap: 20px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group label { font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); }
+    .form-group input, .form-group textarea, .form-group select { background: var(--sand-light); border: 1px solid transparent; border-bottom: 1px solid var(--sand-dark); padding: 14px 16px; font-family: 'Jost', sans-serif; font-size: 0.88rem; font-weight: 300; color: var(--burgundy); outline: none; transition: border-color 0.3s, background 0.3s; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--terra); background: var(--warm-white); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-submit { align-self: flex-start; }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--sand-dark); padding: 40px 80px; display: flex; justify-content: space-between; align-items: center; }
+    .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--burgundy); }
+    .footer-copy { font-size: 0.68rem; letter-spacing: 0.15em; color: var(--text-muted); }
+    .footer-tagline { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; font-style: italic; color: var(--terra); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeRight { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes fadeLeft { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 20px 30px; }
+      .nav-links { gap: 20px; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 120px 30px 80px; }
+      .services { padding: 80px 30px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .pricing { padding: 80px 30px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .founders-row { flex-direction: column; gap: 20px; }
+      .founder-divider { width: 60px; height: 1px; }
+      .about { grid-template-columns: 1fr; padding: 80px 30px; }
+      .about-visual { height: 280px; }
+      .contact { grid-template-columns: 1fr; padding: 80px 30px; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 16px; text-align: center; padding: 30px; }
+      .guide-panel-header { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">Atlas Host Co</a>
+    <ul class="nav-links">
+      <li><a href="#services" data-i18n="nav_services">Services</a></li>
+      <li><a href="#pricing" data-i18n="nav_pricing">Pricing</a></li>
+      <li><a href="#about" data-i18n="nav_about">About</a></li>
+      <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+      <li><button class="guide-nav-btn" onclick="openGuide()" data-i18n="nav_guide">City Guide</button></li>
+    </ul>
+    <div class="lang-selector">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <span class="lang-divider">|</span>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+      <span class="lang-divider">|</span>
+      <button class="lang-btn" onclick="setLang('ar')">ع</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <svg class="hero-arch-bg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50,500 L50,220 Q50,50 250,50 Q450,50 450,220 L450,500 Z" stroke="#4a1c24" stroke-width="4" fill="none"/>
+      <path d="M90,500 L90,230 Q90,110 250,110 Q410,110 410,230 L410,500 Z" stroke="#4a1c24" stroke-width="3" fill="none"/>
+      <path d="M130,500 L130,240 Q130,170 250,170 Q370,170 370,240 L370,500 Z" stroke="#4a1c24" stroke-width="2" fill="none"/>
+    </svg>
+    <div class="hero-left">
+      <p class="hero-eyebrow" data-i18n="hero_eyebrow">Marrakech, Morocco</p>
+      <h1 class="hero-title">
+        <span data-i18n="hero_line1">Elevate Your</span><br/>
+        <em data-i18n="hero_line2">Short-Term</em><br/>
+        <span data-i18n="hero_line3">Rental</span>
+      </h1>
+      <p class="hero-body" data-i18n="hero_body">Atlas Host Co are official Airbnb co-hosts based in Marrakech. We handle everything — from listing creation to guest communication — for just 20% of your booking income. Your property, expertly managed.</p>
+      <div class="hero-cta-row">
+        <a href="#contact" class="btn-primary" data-i18n="hero_cta1">Get in Touch</a>
+        <a href="#services" class="btn-ghost" data-i18n="hero_cta2">Our Services</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="arch-card">
+        <svg viewBox="0 0 340 440" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+          <path d="M20,440 L20,200 Q20,20 170,20 Q320,20 320,200 L320,440 Z" fill="#e8d0b5"/>
+          <path d="M48,440 L48,210 Q48,62 170,62 Q292,62 292,210 L292,440 Z" fill="none" stroke="#c95c3e" stroke-width="2.5"/>
+          <path d="M76,440 L76,220 Q76,104 170,104 Q264,104 264,220 L264,440 Z" fill="none" stroke="#c95c3e" stroke-width="2"/>
+          <path d="M104,440 L104,230 Q104,146 170,146 Q236,146 236,230 L236,440 Z" fill="#c95c3e" opacity="0.15"/>
+          <path d="M136,440 L136,310 Q136,248 170,248 Q204,248 204,310 L204,440 Z" fill="#a8402a" opacity="0.5"/>
+          <rect x="60" y="360" width="220" height="60" fill="#faf5ee" opacity="0.9"/>
+          <text x="170" y="382" text-anchor="middle" font-family="Jost, sans-serif" font-size="10" letter-spacing="2" fill="#8a6a58" data-i18n="stat_rating_label">AVERAGE RATING</text>
+          <text x="170" y="408" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="28" fill="#4a1c24">4.97 ★</text>
+        </svg>
+        <div class="stat-card stat-card--left">
+          <div class="stat-card-num">50+</div>
+          <div class="stat-card-label" data-i18n="stat_properties">Properties Managed</div>
+        </div>
+        <div class="stat-card stat-card--bottom">
+          <div class="stat-card-num">96%</div>
+          <div class="stat-card-label" data-i18n="stat_occupancy">Occupancy Rate</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-inner" id="ticker-inner">
+      <span class="ticker-item" data-ticker="0">Property Management<span class="ticker-dot"> ✦</span></span>
+      <span class="ticker-item" data-ticker="1">Guest Communication<span class="ticker-dot"> ✦</span></span>
+      <span class="ticker-item" data-ticker="2">Dynamic Pricing<span class="ticker-dot"> ✦</span></span>
+      <span class="ticker-item" data-ticker="3">Cleaning &amp; Maintenance<span class="ticker-dot"> ✦</span></span>
+      <span class="ticker-item" data-ticker="4">Listing Optimisation<span class="ticker-dot"> ✦</span></span>
+      <span class="ticker-item" data-ticker="5">Owner Reporting<span class="ticker-dot"> ✦</span></span>
+      <span class="ticker-item" data-ticker="0">Property Management<span class="ticker-dot"> ✦</span></span>
+      <span class="ticker-item" data-ticker="1">Guest Communication<span class="ticker-dot"> ✦</span></span>
+      <span class="ticker-item" data-ticker="2">Dynamic Pricing<span class="ticker-dot"> ✦</span></span>
+      <span class="ticker-item" data-ticker="3">Cleaning &amp; Maintenance<span class="ticker-dot"> ✦</span></span>
+      <span class="ticker-item" data-ticker="4">Listing Optimisation<span class="ticker-dot"> ✦</span></span>
+      <span class="ticker-item" data-ticker="5">Owner Reporting<span class="ticker-dot"> ✦</span></span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <p class="section-label" data-i18n="services_label">What We Do</p>
+    <h2 class="section-title" data-i18n="services_title">Full-service hosting, handled with care</h2>
+    <div class="services-grid">
+      <div class="service-card"><div class="service-num">01</div><div class="service-name" data-i18n="svc1_name">Listing Creation</div><p class="service-desc" data-i18n="svc1_desc">Free for new hosts. We build your Airbnb listing from scratch — professional photography direction, compelling copy, and strategic pricing to launch strong.</p></div>
+      <div class="service-card"><div class="service-num">02</div><div class="service-name" data-i18n="svc2_name">Listing Optimisation</div><p class="service-desc" data-i18n="svc2_desc">For existing hosts. A full audit and overhaul of your current listing — improved SEO, updated photos, and refined pricing strategy. From $150.</p></div>
+      <div class="service-card"><div class="service-num">03</div><div class="service-name" data-i18n="svc3_name">Guest Communication</div><p class="service-desc" data-i18n="svc3_desc">We handle every message, inquiry, and review on your behalf — 24/7. Guests receive fast, warm, professional responses every time.</p></div>
+      <div class="service-card"><div class="service-num">04</div><div class="service-name" data-i18n="svc4_name">Dynamic Pricing</div><p class="service-desc" data-i18n="svc4_desc">Data-driven pricing that responds to Marrakech's seasonal demand, local events, and platform trends to maximise your revenue year-round.</p></div>
+      <div class="service-card"><div class="service-num">05</div><div class="service-name" data-i18n="svc5_name">Cleaning &amp; Maintenance</div><p class="service-desc" data-i18n="svc5_desc">Coordinated hotel-grade housekeeping after every checkout, plus a trusted local network for swift repairs and routine inspections.</p></div>
+      <div class="service-card"><div class="service-num">06</div><div class="service-name" data-i18n="svc6_name">Owner Reporting</div><p class="service-desc" data-i18n="svc6_desc">Transparent monthly revenue reports, occupancy analytics, and direct payouts — so you always know exactly how your property is performing.</p></div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <p class="section-label" data-i18n="pricing_label">Simple, Transparent Pricing</p>
+    <h2 class="section-title" data-i18n="pricing_title">One commission. Everything included.</h2>
+    <div class="pricing-grid">
+      <div class="pricing-card pricing-card--free">
+        <div class="pricing-tag" data-i18n="p1_tag">New Hosts</div>
+        <div class="pricing-price">Free</div>
+        <div class="pricing-name" data-i18n="p1_name">Listing Creation</div>
+        <p class="pricing-desc" data-i18n="p1_desc">We build your Airbnb listing from the ground up at no upfront cost. Photography direction, copywriting, and initial pricing setup included.</p>
+        <ul class="pricing-list">
+          <li data-i18n="p1_li1">Full listing setup</li>
+          <li data-i18n="p1_li2">Photography direction</li>
+          <li data-i18n="p1_li3">Copywriting &amp; SEO</li>
+          <li data-i18n="p1_li4">Initial pricing strategy</li>
+        </ul>
+        <a href="#contact" class="btn-primary" data-i18n="p1_cta">Get Started Free</a>
+      </div>
+      <div class="pricing-card pricing-card--featured">
+        <div class="pricing-tag" data-i18n="p2_tag">Existing Hosts</div>
+        <div class="pricing-price">$150</div>
+        <div class="pricing-name" data-i18n="p2_name">Listing Optimisation</div>
+        <p class="pricing-desc" data-i18n="p2_desc">A comprehensive audit and rebuild of your existing listing to improve visibility, conversion, and nightly rate.</p>
+        <ul class="pricing-list">
+          <li data-i18n="p2_li1">Full listing audit</li>
+          <li data-i18n="p2_li2">Rewritten copy &amp; title</li>
+          <li data-i18n="p2_li3">Photo review &amp; reordering</li>
+          <li data-i18n="p2_li4">Pricing restructure</li>
+        </ul>
+        <a href="#contact" class="btn-primary" data-i18n="p2_cta">Book an Audit</a>
+      </div>
+      <div class="pricing-card pricing-card--management">
+        <div class="pricing-tag" data-i18n="p3_tag">All Hosts</div>
+        <div class="pricing-price">20%</div>
+        <div class="pricing-name" data-i18n="p3_name">Full Management</div>
+        <p class="pricing-desc" data-i18n="p3_desc">Our all-in co-hosting service. We manage everything end-to-end. You receive your income, minus our 20% commission. Cleaning fee paid separately by guests.</p>
+        <ul class="pricing-list">
+          <li data-i18n="p3_li1">Guest communication</li>
+          <li data-i18n="p3_li2">Check-in coordination</li>
+          <li data-i18n="p3_li3">Cleaning &amp; maintenance</li>
+          <li data-i18n="p3_li4">Dynamic pricing</li>
+          <li data-i18n="p3_li5">Monthly reporting</li>
+        </ul>
+        <a href="#contact" class="btn-primary" data-i18n="p3_cta">Start Earning</a>
+      </div>
+    </div>
+    <p class="pricing-note" data-i18n="pricing_note">★ We are official Airbnb co-hosts. We require a minimum listing rating of 4.8★ to take on existing listings. Not quite there yet? We can help you get there first.</p>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-visual">
+      <div class="about-block-1"></div>
+      <div class="about-block-2">
+        <svg class="about-arch-icon" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10,80 L10,38 Q10,8 40,8 Q70,8 70,38 L70,80 Z" stroke="#c95c3e" stroke-width="2.5" fill="none"/>
+          <path d="M20,80 L20,42 Q20,20 40,20 Q60,20 60,42 L60,80 Z" stroke="#c95c3e" stroke-width="2" fill="none"/>
+          <path d="M30,80 L30,46 Q30,32 40,32 Q50,32 50,46 L50,80 Z" fill="#c95c3e" opacity="0.3"/>
+        </svg>
+      </div>
+    </div>
+    <div class="about-content">
+      <p class="about-label" data-i18n="about_label">Our Story</p>
+      <h2 class="about-title" data-i18n="about_title">Two founders. One city. One mission.</h2>
+      <p class="about-body" data-i18n="about_body">Atlas Host Co was co-founded by Hajar Rahmouni and Caleb Ford — combining deep local knowledge of Marrakech with international hosting experience. As official Airbnb co-hosts, we bring Superhost status, genuine care, and proven systems to every property we manage. We don't just manage listings — we protect your investment and grow it.</p>
+      <div class="founders-row">
+        <div class="founder">
+          <div class="founder-name">Hajar Rahmouni</div>
+          <div class="founder-title" data-i18n="founder1_title">Co-Founder — Marrakech, Morocco</div>
+          <div class="founder-contact"><a href="https://wa.me/212674739734" target="_blank" rel="noopener" class="whatsapp-link">+212 674 739 734 <span class="wa-badge">WhatsApp ↗</span></a></div>
+        </div>
+        <div class="founder-divider"></div>
+        <div class="founder">
+          <div class="founder-name">Caleb Ford</div>
+          <div class="founder-title" data-i18n="founder2_title">Co-Founder — Perth, Australia</div>
+          <div class="founder-contact"><a href="https://wa.me/61430297755" target="_blank" rel="noopener" class="whatsapp-link">+61 430 297 755 <span class="wa-badge">WhatsApp ↗</span></a></div>
+        </div>
+      </div>
+      <a href="#contact" class="btn-primary" data-i18n="about_cta">Work With Us</a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-left">
+      <h2 class="contact-title" data-i18n="contact_title">Let's talk about your property</h2>
+      <p class="contact-body" data-i18n="contact_body">Whether you have a riad in the medina or a villa in the Palmeraie, we'd love to learn about your property. Book a free consultation and we'll walk you through everything.</p>
+      <div class="contact-info">
+        <div class="contact-info-item"><strong data-i18n="ci_email_label">Email</strong><a href="/cdn-cgi/l/email-protection#5b32353d341b3a2f373a283334282f383475383436" style="color:inherit;"><span class="__cf_email__" data-cfemail="41282f272e0120352d2032292e3235222e6f222e2c">[email&#160;protected]</span></a></div>
+        <div class="contact-info-item"><strong data-i18n="ci_hajar_label">Hajar — Morocco</strong><a href="https://wa.me/212674739734" target="_blank" rel="noopener" class="whatsapp-link">+212 674 739 734 <span class="wa-badge">WhatsApp ↗</span></a></div>
+        <div class="contact-info-item"><strong data-i18n="ci_caleb_label">Caleb — Australia</strong><a href="https://wa.me/61430297755" target="_blank" rel="noopener" class="whatsapp-link">+61 430 297 755 <span class="wa-badge">WhatsApp ↗</span></a></div>
+        <div class="contact-info-item"><strong data-i18n="ci_based_label">Based in</strong><span data-i18n="ci_based_val">Marrakech-Safi, Morocco</span></div>
+      </div>
+    </div>
+    <div class="contact-right">
+      <form class="contact-form" onsubmit="return false;">
+        <div class="form-row">
+          <div class="form-group"><label data-i18n="form_fname">First Name</label><input type="text" data-i18n-placeholder="form_fname_ph" placeholder="Youssef"/></div>
+          <div class="form-group"><label data-i18n="form_lname">Last Name</label><input type="text" data-i18n-placeholder="form_lname_ph" placeholder="El Fassi"/></div>
+        </div>
+        <div class="form-group"><label data-i18n="form_email">Email</label><input type="email" data-i18n-placeholder="form_email_ph" placeholder="you@example.com"/></div>
+        <div class="form-group">
+          <label data-i18n="form_proptype">Property Type</label>
+          <select>
+            <option value="" data-i18n="form_select">Select…</option>
+            <option data-i18n="form_opt1">Riad — Medina</option>
+            <option data-i18n="form_opt2">Villa — Palmeraie</option>
+            <option data-i18n="form_opt3">Apartment</option>
+            <option data-i18n="form_opt4">Other</option>
+          </select>
+        </div>
+        <div class="form-group"><label data-i18n="form_message">Message</label><textarea data-i18n-placeholder="form_msg_ph" placeholder="Tell us a little about your property…"></textarea></div>
+        <button type="submit" class="btn-primary form-submit" data-i18n="form_submit">Send Enquiry</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- CITY GUIDE OVERLAY PANEL -->
+  <div class="guide-overlay" id="guideOverlay">
+    <div class="guide-panel-header">
+      <div class="guide-panel-title" data-i18n="nav_guide">City Guide</div>
+      <button class="guide-close" onclick="closeGuide()" aria-label="Close">✕</button>
+    </div>
+    <div class="guide-panel-body">
+      <div class="guide-pane active" id="pane-guide">
+        <iframe src="atlas-host-co-marrakech-guide.html" title="Marrakech Venue Guide"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">Atlas Host Co</div>
+    <div class="footer-tagline">Mosii · Gool · Marrakech</div>
+    <div class="footer-copy" data-i18n="footer_copy">© 2025 Atlas Host Co. All rights reserved.</div>
+  </footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const T = {
+  en: {
+    nav_services:'Services', nav_pricing:'Pricing', nav_about:'About', nav_contact:'Contact', nav_guide:'City Guide',
+    tab_guide:'Venue Guide',
+    hero_eyebrow:'Marrakech, Morocco', hero_line1:'Elevate Your', hero_line2:'Short-Term', hero_line3:'Rental',
+    hero_body:'Atlas Host Co are official Airbnb co-hosts based in Marrakech. We handle everything — from listing creation to guest communication — for just 20% of your booking income. Your property, expertly managed.',
+    hero_cta1:'Get in Touch', hero_cta2:'Our Services',
+    stat_properties:'Properties Managed', stat_occupancy:'Occupancy Rate', stat_rating_label:'AVERAGE RATING',
+    ticker:['Property Management','Guest Communication','Dynamic Pricing','Cleaning & Maintenance','Listing Optimisation','Owner Reporting'],
+    services_label:'What We Do', services_title:'Full-service hosting, handled with care',
+    svc1_name:'Listing Creation', svc1_desc:'Free for new hosts. We build your Airbnb listing from scratch — professional photography direction, compelling copy, and strategic pricing to launch strong.',
+    svc2_name:'Listing Optimisation', svc2_desc:'For existing hosts. A full audit and overhaul of your current listing — improved SEO, updated photos, and refined pricing strategy. From $150.',
+    svc3_name:'Guest Communication', svc3_desc:'We handle every message, inquiry, and review on your behalf — 24/7. Guests receive fast, warm, professional responses every time.',
+    svc4_name:'Dynamic Pricing', svc4_desc:"Data-driven pricing that responds to Marrakech's seasonal demand, local events, and platform trends to maximise your revenue year-round.",
+    svc5_name:'Cleaning & Maintenance', svc5_desc:'Coordinated hotel-grade housekeeping after every checkout, plus a trusted local network for swift repairs and routine inspections.',
+    svc6_name:'Owner Reporting', svc6_desc:'Transparent monthly revenue reports, occupancy analytics, and direct payouts — so you always know exactly how your property is performing.',
+    pricing_label:'Simple, Transparent Pricing', pricing_title:'One commission. Everything included.',
+    p1_tag:'New Hosts', p1_name:'Listing Creation', p1_desc:'We build your Airbnb listing from the ground up at no upfront cost. Photography direction, copywriting, and initial pricing setup included.',
+    p1_li1:'Full listing setup', p1_li2:'Photography direction', p1_li3:'Copywriting & SEO', p1_li4:'Initial pricing strategy', p1_cta:'Get Started Free',
+    p2_tag:'Existing Hosts', p2_name:'Listing Optimisation', p2_desc:'A comprehensive audit and rebuild of your existing listing to improve visibility, conversion, and nightly rate.',
+    p2_li1:'Full listing audit', p2_li2:'Rewritten copy & title', p2_li3:'Photo review & reordering', p2_li4:'Pricing restructure', p2_cta:'Book an Audit',
+    p3_tag:'All Hosts', p3_name:'Full Management', p3_desc:'Our all-in co-hosting service. We manage everything end-to-end. You receive your income, minus our 20% commission. Cleaning fee paid separately by guests.',
+    p3_li1:'Guest communication', p3_li2:'Check-in coordination', p3_li3:'Cleaning & maintenance', p3_li4:'Dynamic pricing', p3_li5:'Monthly reporting', p3_cta:'Start Earning',
+    pricing_note:'★ We are official Airbnb co-hosts. We require a minimum listing rating of 4.8★ to take on existing listings. Not quite there yet? We can help you get there first.',
+    about_label:'Our Story', about_title:'Two founders. One city. One mission.',
+    about_body:"Atlas Host Co was co-founded by Hajar Rahmouni and Caleb Ford — combining deep local knowledge of Marrakech with international hosting experience. As official Airbnb co-hosts, we bring Superhost status, genuine care, and proven systems to every property we manage. We don't just manage listings — we protect your investment and grow it.",
+    founder1_title:'Co-Founder — Marrakech, Morocco', founder2_title:'Co-Founder — Perth, Australia', about_cta:'Work With Us',
+    contact_title:"Let's talk about your property", contact_body:"Whether you have a riad in the medina or a villa in the Palmeraie, we'd love to learn about your property. Book a free consultation and we'll walk you through everything.",
+    ci_email_label:'Email', ci_hajar_label:'Hajar — Morocco', ci_caleb_label:'Caleb — Australia', ci_based_label:'Based in', ci_based_val:'Marrakech-Safi, Morocco',
+    form_fname:'First Name', form_fname_ph:'Youssef', form_lname:'Last Name', form_lname_ph:'El Fassi',
+    form_email:'Email', form_email_ph:'you@example.com', form_proptype:'Property Type',
+    form_select:'Select…', form_opt1:'Riad — Medina', form_opt2:'Villa — Palmeraie', form_opt3:'Apartment', form_opt4:'Other',
+    form_message:'Message', form_msg_ph:'Tell us a little about your property…', form_submit:'Send Enquiry',
+    footer_copy:'© 2025 Atlas Host Co. All rights reserved.'
+  },
+  fr: {
+    nav_services:'Services', nav_pricing:'Tarifs', nav_about:'À Propos', nav_contact:'Contact', nav_guide:'Guide de la Ville',
+    tab_guide:'Guide des Adresses',
+    hero_eyebrow:'Marrakech, Maroc', hero_line1:'Valorisez Votre', hero_line2:'Location', hero_line3:'Courte Durée',
+    hero_body:"Atlas Host Co est un co-hôte officiel Airbnb basé à Marrakech. Nous gérons tout — de la création d'annonce à la communication avec les voyageurs — pour seulement 20 % de vos revenus. Votre bien, entre de bonnes mains.",
+    hero_cta1:'Nous Contacter', hero_cta2:'Nos Services',
+    stat_properties:'Biens Gérés', stat_occupancy:"Taux d'Occupation", stat_rating_label:'NOTE MOYENNE',
+    ticker:['Gestion Immobilière','Communication Voyageurs','Tarification Dynamique','Nettoyage & Entretien','Optimisation Annonce','Rapports Propriétaire'],
+    services_label:'Ce Que Nous Faisons', services_title:'Une gestion complète, avec soin',
+    svc1_name:"Création d'Annonce", svc1_desc:"Gratuit pour les nouveaux hôtes. Nous créons votre annonce Airbnb de A à Z — direction photographique, rédaction et tarification stratégique pour un lancement réussi.",
+    svc2_name:"Optimisation d'Annonce", svc2_desc:"Pour les hôtes existants. Audit complet et refonte de votre annonce — meilleur référencement, photos actualisées et stratégie tarifaire affinée. À partir de 150 $.",
+    svc3_name:'Communication Voyageurs', svc3_desc:"Nous gérons chaque message, demande et avis en votre nom — 24h/24, 7j/7. Vos voyageurs reçoivent des réponses rapides, chaleureuses et professionnelles.",
+    svc4_name:'Tarification Dynamique', svc4_desc:"Une tarification basée sur les données qui s'adapte à la demande saisonnière de Marrakech, aux événements locaux et aux tendances de la plateforme.",
+    svc5_name:'Nettoyage & Entretien', svc5_desc:"Ménage hôtelier coordonné après chaque départ, plus un réseau local de confiance pour les réparations rapides et les inspections régulières.",
+    svc6_name:'Rapports Propriétaire', svc6_desc:"Rapports mensuels transparents, analyses d'occupation et versements directs — pour que vous sachiez toujours exactement comment se porte votre bien.",
+    pricing_label:'Tarifs Simples et Transparents', pricing_title:'Une commission. Tout inclus.',
+    p1_tag:'Nouveaux Hôtes', p1_name:"Création d'Annonce", p1_desc:'Nous créons votre annonce Airbnb de zéro sans frais initiaux. Direction photographique, rédaction et configuration tarifaire incluses.',
+    p1_li1:'Création complète', p1_li2:'Direction photographique', p1_li3:'Rédaction & SEO', p1_li4:'Stratégie tarifaire initiale', p1_cta:'Commencer Gratuitement',
+    p2_tag:'Hôtes Existants', p2_name:"Optimisation d'Annonce", p2_desc:'Audit complet et refonte de votre annonce existante pour améliorer la visibilité, la conversion et le tarif par nuit.',
+    p2_li1:'Audit complet', p2_li2:'Rédaction & titre retravaillés', p2_li3:'Révision & réorganisation photos', p2_li4:'Restructuration tarifaire', p2_cta:'Réserver un Audit',
+    p3_tag:'Tous les Hôtes', p3_name:'Gestion Complète', p3_desc:'Notre service de co-hébergement tout-en-un. Nous gérons tout de A à Z. Vous percevez vos revenus moins notre commission de 20 %. Frais de ménage payés par les voyageurs.',
+    p3_li1:'Communication voyageurs', p3_li2:'Coordination check-in', p3_li3:'Nettoyage & entretien', p3_li4:'Tarification dynamique', p3_li5:'Rapports mensuels', p3_cta:'Commencer à Gagner',
+    pricing_note:'★ Nous sommes co-hôtes officiels Airbnb. Nous exigeons une note minimale de 4,8★ pour les annonces existantes. Pas encore là ? Nous pouvons vous aider à y parvenir.',
+    about_label:'Notre Histoire', about_title:'Deux fondateurs. Une ville. Une mission.',
+    about_body:"Atlas Host Co a été cofondée par Hajar Rahmouni et Caleb Ford — alliant une connaissance approfondie de Marrakech à une expérience internationale de l'hébergement. En tant que co-hôtes officiels Airbnb, nous apportons le statut de Superhost, un vrai sens du service et des systèmes éprouvés à chaque bien géré.",
+    founder1_title:'Co-Fondatrice — Marrakech, Maroc', founder2_title:'Co-Fondateur — Perth, Australie', about_cta:'Travailler Avec Nous',
+    contact_title:'Parlons de votre bien', contact_body:"Que vous ayez un riad dans la médina ou une villa à la Palmeraie, nous serions ravis d'en savoir plus sur votre bien. Réservez une consultation gratuite.",
+    ci_email_label:'Email', ci_hajar_label:'Hajar — Maroc', ci_caleb_label:'Caleb — Australie', ci_based_label:'Basé à', ci_based_val:'Marrakech-Safi, Maroc',
+    form_fname:'Prénom', form_fname_ph:'Youssef', form_lname:'Nom', form_lname_ph:'El Fassi',
+    form_email:'Email', form_email_ph:'vous@exemple.com', form_proptype:'Type de Bien',
+    form_select:'Choisir…', form_opt1:'Riad — Médina', form_opt2:'Villa — Palmeraie', form_opt3:'Appartement', form_opt4:'Autre',
+    form_message:'Message', form_msg_ph:'Parlez-nous un peu de votre bien…', form_submit:'Envoyer',
+    footer_copy:'© 2025 Atlas Host Co. Tous droits réservés.'
+  },
+  ar: {
+    nav_services:'الخدمات', nav_pricing:'الأسعار', nav_about:'من نحن', nav_contact:'اتصل بنا', nav_guide:'دليل المدينة',
+    tab_guide:'دليل الأماكن',
+    hero_eyebrow:'مراكش، المغرب', hero_line1:'ارتقِ بـ', hero_line2:'إيجارك', hero_line3:'قصير الأمد',
+    hero_body:'أطلس هوست كو شريك مضيف رسمي على Airbnb مقره مراكش. نتولى كل شيء — من إنشاء الإعلان إلى التواصل مع الضيوف — مقابل 20٪ فقط من دخلك. عقارك في أيدٍ أمينة.',
+    hero_cta1:'تواصل معنا', hero_cta2:'خدماتنا',
+    stat_properties:'عقار مُدار', stat_occupancy:'معدل الإشغال', stat_rating_label:'متوسط التقييم',
+    ticker:['إدارة العقارات','التواصل مع الضيوف','التسعير الديناميكي','التنظيف والصيانة','تحسين الإعلان','تقارير المالك'],
+    services_label:'ما نقدمه', services_title:'إدارة متكاملة بعناية فائقة',
+    svc1_name:'إنشاء الإعلان', svc1_desc:'مجاناً للمضيفين الجدد. نبني إعلان Airbnb الخاص بك من الصفر — توجيه تصوير احترافي، كتابة إبداعية، وتسعير استراتيجي لانطلاقة قوية.',
+    svc2_name:'تحسين الإعلان', svc2_desc:'للمضيفين الحاليين. مراجعة شاملة وإعادة بناء إعلانك — تحسين SEO، صور محدّثة، واستراتيجية تسعير مُحكمة. من 150 دولار.',
+    svc3_name:'التواصل مع الضيوف', svc3_desc:'نتولى كل رسالة واستفسار ومراجعة نيابةً عنك — على مدار الساعة. يحصل ضيوفك على ردود سريعة ودافئة واحترافية في كل وقت.',
+    svc4_name:'التسعير الديناميكي', svc4_desc:'تسعير مبني على البيانات يستجيب لطلب مراكش الموسمي والأحداث المحلية واتجاهات المنصة لتعظيم دخلك طوال العام.',
+    svc5_name:'التنظيف والصيانة', svc5_desc:'خدمات تنظيف بمستوى فندقي منسقة بعد كل مغادرة، إضافة لشبكة محلية موثوقة للإصلاحات السريعة والفحوصات الدورية.',
+    svc6_name:'تقارير المالك', svc6_desc:'تقارير شهرية شفافة وتحليلات إشغال ومدفوعات مباشرة — لتكون دائماً على علم تام بأداء عقارك.',
+    pricing_label:'أسعار بسيطة وشفافة', pricing_title:'عمولة واحدة. كل شيء مشمول.',
+    p1_tag:'المضيفون الجدد', p1_name:'إنشاء الإعلان', p1_desc:'نبني إعلان Airbnb الخاص بك من الصفر بدون أي تكلفة مسبقة. توجيه التصوير والكتابة والإعداد الأولي للتسعير مشمولة.',
+    p1_li1:'إعداد الإعلان كاملاً', p1_li2:'توجيه التصوير', p1_li3:'الكتابة وتحسين المحركات', p1_li4:'استراتيجية التسعير الأولية', p1_cta:'ابدأ مجاناً',
+    p2_tag:'المضيفون الحاليون', p2_name:'تحسين الإعلان', p2_desc:'مراجعة شاملة وإعادة بناء إعلانك الحالي لتحسين الظهور والتحويل والسعر الليلي.',
+    p2_li1:'مراجعة شاملة للإعلان', p2_li2:'إعادة كتابة النص والعنوان', p2_li3:'مراجعة الصور وإعادة ترتيبها', p2_li4:'إعادة هيكلة التسعير', p2_cta:'احجز مراجعة',
+    p3_tag:'جميع المضيفين', p3_name:'الإدارة الكاملة', p3_desc:'خدمة الاستضافة المشتركة الشاملة. ندير كل شيء من البداية إلى النهاية. تستلم دخلك مطروحاً منه عمولتنا 20٪. رسوم التنظيف يدفعها الضيوف.',
+    p3_li1:'التواصل مع الضيوف', p3_li2:'تنسيق تسجيل الدخول', p3_li3:'التنظيف والصيانة', p3_li4:'التسعير الديناميكي', p3_li5:'التقارير الشهرية', p3_cta:'ابدأ في الكسب',
+    pricing_note:'★ نحن شركاء مضيفون رسميون على Airbnb. نشترط حداً أدنى للتقييم 4.8★ للإعلانات الحالية. لم تصل بعد؟ يمكننا مساعدتك على تحقيق ذلك أولاً.',
+    about_label:'قصتنا', about_title:'مؤسسان. مدينة واحدة. مهمة واحدة.',
+    about_body:'تأسست أطلس هوست كو على يد هاجر رحموني وكالب فورد — بجمع الخبرة المحلية العميقة بمراكش والتجربة الدولية في الإيجار. بوصفنا شركاء مضيفين رسميين على Airbnb، نحرص على تقديم أعلى مستويات الخدمة وحماية استثمارك وتنميته.',
+    founder1_title:'المؤسسة المشاركة — مراكش، المغرب', founder2_title:'المؤسس المشارك — بيرث، أستراليا', about_cta:'اعمل معنا',
+    contact_title:'تحدث إلينا عن عقارك', contact_body:'سواء كان لديك رياض في المدينة العتيقة أو فيلا في البالمراي، يسعدنا التعرف على عقارك. احجز استشارة مجانية وسنرشدك خطوة بخطوة.',
+    ci_email_label:'البريد الإلكتروني', ci_hajar_label:'هاجر — المغرب', ci_caleb_label:'كالب — أستراليا', ci_based_label:'مقرنا', ci_based_val:'مراكش-سافي، المغرب',
+    form_fname:'الاسم الأول', form_fname_ph:'يوسف', form_lname:'اسم العائلة', form_lname_ph:'الفاسي',
+    form_email:'البريد الإلكتروني', form_email_ph:'you@example.com', form_proptype:'نوع العقار',
+    form_select:'اختر…', form_opt1:'رياض — المدينة العتيقة', form_opt2:'فيلا — البالمراي', form_opt3:'شقة', form_opt4:'أخرى',
+    form_message:'رسالة', form_msg_ph:'أخبرنا قليلاً عن عقارك…', form_submit:'إرسال الاستفسار',
+    footer_copy:'© 2025 أطلس هوست كو. جميع الحقوق محفوظة.'
+  }
+};
+
+function setLang(lang) {
+  const t = T[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+  document.querySelectorAll('option[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+  if (t.ticker) {
+    document.querySelectorAll('[data-ticker]').forEach(el => {
+      const idx = parseInt(el.getAttribute('data-ticker'));
+      if (t.ticker[idx] !== undefined) el.childNodes[0].textContent = t.ticker[idx];
+    });
+  }
+  if (lang === 'ar') {
+    document.body.classList.add('rtl');
+    document.documentElement.setAttribute('lang', 'ar');
+  } else {
+    document.body.classList.remove('rtl');
+    document.documentElement.setAttribute('lang', lang);
+  }
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+}
+
+// ── City Guide Panel ──
+function openGuide() {
+  document.getElementById('guideOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeGuide() {
+  document.getElementById('guideOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeGuide(); });
+</script>
+</body>
+</html>

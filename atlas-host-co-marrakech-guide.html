@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Atlas Host Co — Marrakech Local Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --sand: #f0e0cc; --sand-light: #f7ede0; --sand-dark: #e8d0b5;
+      --terra: #c95c3e; --terra-light: #d97455; --terra-dark: #a8402a;
+      --burgundy: #4a1c24; --warm-white: #faf5ee; --text-muted: #8a6a58;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--warm-white); color: var(--burgundy); font-family: 'Jost', sans-serif; font-weight: 300; overflow-x: hidden; }
+    body.rtl { direction: rtl; text-align: right; }
+    body.rtl .venue-location { right: auto; left: 28px; }
+    body.rtl .cat-count { margin-left: 0; margin-right: auto; }
+
+    /* LANG SELECTOR */
+    .lang-selector { display: flex; align-items: center; gap: 6px; }
+    .lang-btn { background: none; border: none; cursor: pointer; font-family: 'Jost', sans-serif; font-size: 0.68rem; font-weight: 400; letter-spacing: 0.15em; color: var(--sand); opacity: 0.5; transition: opacity 0.2s; padding: 2px 4px; }
+    .lang-btn:hover, .lang-btn.active { opacity: 1; }
+    .lang-btn.active { font-weight: 500; }
+    .lang-divider { color: rgba(240,224,204,0.3); font-size: 0.6rem; }
+
+    /* HEADER */
+    .guide-header { background: var(--burgundy); padding: 60px 80px 64px; position: relative; overflow: hidden; }
+    .guide-header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 400px; height: 400px; border: 2px solid rgba(201,92,62,0.2); border-radius: 50%; }
+    .guide-header::after { content: ''; position: absolute; top: 20px; right: 20px; width: 280px; height: 280px; border: 1px solid rgba(201,92,62,0.15); border-radius: 50%; }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; position: relative; z-index: 1; }
+    .header-brand { font-family: 'Cormorant Garamond', serif; font-size: 0.75rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--terra-light); }
+    .header-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 5vw, 5.5rem); font-weight: 300; color: var(--sand); line-height: 1.05; margin-bottom: 24px; position: relative; z-index: 1; }
+    .header-title em { font-style: italic; color: var(--terra-light); }
+    .header-subtitle { font-size: 0.9rem; line-height: 1.9; color: rgba(240,224,204,0.65); max-width: 520px; position: relative; z-index: 1; }
+    .header-arch { position: absolute; bottom: 0; right: 120px; width: 200px; opacity: 0.07; pointer-events: none; z-index: 0; }
+
+    /* CATEGORY NAV */
+    .cat-nav { background: var(--sand); padding: 24px 80px; display: flex; gap: 32px; flex-wrap: wrap; border-bottom: 1px solid var(--sand-dark); position: sticky; top: 0; z-index: 50; }
+    .cat-nav a { font-size: 0.65rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .cat-nav a:hover { color: var(--terra); }
+
+    /* CATEGORY SECTION */
+    .category { padding: 72px 80px; }
+    .category:nth-child(odd) { background: var(--warm-white); }
+    .category:nth-child(even) { background: var(--sand-light); }
+    .cat-header { display: flex; align-items: baseline; gap: 24px; margin-bottom: 48px; padding-bottom: 20px; border-bottom: 1px solid var(--sand-dark); }
+    .cat-eyebrow { font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--terra); }
+    .cat-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 300; color: var(--burgundy); }
+    .cat-count { margin-left: auto; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); opacity: 0.6; }
+
+    /* VENUE GRID */
+    .venue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2px; }
+    .venue-card { padding: 36px 32px; position: relative; transition: background 0.3s; overflow: hidden; }
+    .category:nth-child(odd) .venue-card { background: var(--sand-light); }
+    .category:nth-child(even) .venue-card { background: var(--warm-white); }
+    .venue-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--terra); transition: width 0.4s; }
+    .venue-card:hover::after { width: 100%; }
+    .venue-card:hover { background: var(--sand); }
+    .venue-tag { display: inline-block; font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--terra); margin-bottom: 12px; }
+    .venue-name { font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 400; color: var(--burgundy); margin-bottom: 12px; line-height: 1.2; }
+    .venue-desc { font-size: 0.83rem; line-height: 1.85; color: var(--text-muted); }
+    .venue-note { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--sand-dark); font-size: 0.75rem; letter-spacing: 0.05em; color: var(--terra); font-style: italic; }
+    .venue-location { position: absolute; top: 28px; right: 28px; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); opacity: 0.55; }
+
+    /* FOOTER */
+    .guide-footer { background: var(--sand-dark); padding: 40px 80px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--burgundy); }
+    .footer-tagline { font-family: 'Cormorant Garamond', serif; font-size: 0.88rem; font-style: italic; color: var(--terra); }
+    .footer-copy { font-size: 0.65rem; letter-spacing: 0.15em; color: var(--text-muted); }
+
+    @media (max-width: 800px) {
+      .guide-header { padding: 40px 30px 48px; }
+      .header-top { flex-direction: column; gap: 20px; }
+      .cat-nav { padding: 20px 30px; gap: 20px; }
+      .category { padding: 48px 30px; }
+      .venue-grid { grid-template-columns: 1fr; }
+      .guide-footer { padding: 30px; flex-direction: column; text-align: center; }
+      .cat-header { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="guide-header">
+    <div class="header-top">
+      <div class="header-brand" data-i18n="header_brand">Atlas Host Co · Marrakech</div>
+      <div class="lang-selector">
+        <button class="lang-btn active" onclick="setLang('en')">EN</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" onclick="setLang('fr')">FR</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" onclick="setLang('ar')">ع</button>
+      </div>
+    </div>
+    <h1 class="header-title">
+      <span data-i18n="header_title_1">Our Favourite</span><br/>
+      <em data-i18n="header_title_2">Places in the City</em>
+    </h1>
+    <p class="header-subtitle" data-i18n="header_subtitle">A curated guide to the restaurants, cafés, bars, and cultural spots we love and recommend to every guest. From medina hidden gems to Guéliz rooftops — these are the places that make Marrakech unmissable.</p>
+    <svg class="header-arch" viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10,280 L10,120 Q10,10 100,10 Q190,10 190,120 L190,280 Z" stroke="#f0e0cc" stroke-width="3" fill="none"/>
+      <path d="M30,280 L30,130 Q30,40 100,40 Q170,40 170,130 L170,280 Z" stroke="#f0e0cc" stroke-width="2" fill="none"/>
+      <path d="M50,280 L50,140 Q50,70 100,70 Q150,70 150,140 L150,280 Z" fill="#f0e0cc" opacity="0.2"/>
+    </svg>
+  </header>
+
+  <!-- CATEGORY NAV -->
+  <nav class="cat-nav">
+    <a href="#coffee" data-i18n="nav_coffee">Coffee</a>
+    <a href="#food" data-i18n="nav_food">Restaurants</a>
+    <a href="#rooftops" data-i18n="nav_rooftops">Rooftops &amp; Bars</a>
+    <a href="#casual" data-i18n="nav_casual">Casual Bites</a>
+    <a href="#culture" data-i18n="nav_culture">Art &amp; Culture</a>
+    <a href="#sweet" data-i18n="nav_sweet">Patisserie</a>
+  </nav>
+
+  <!-- ☕ COFFEE -->
+  <section class="category" id="coffee">
+    <div class="cat-header">
+      <span class="cat-eyebrow">☕</span>
+      <h2 class="cat-title" data-i18n="cat_coffee">Specialty Coffee</h2>
+      <span class="cat-count" data-i18n="count_5">5 spots</span>
+    </div>
+    <div class="venue-grid">
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="simple_tag">Specialty · All Day</span>
+        <span class="venue-location" data-i18n="loc_gueliz">Guéliz</span>
+        <div class="venue-name">Simple Specialty Coffee</div>
+        <p class="venue-desc" data-i18n="simple_desc">One of the original specialty coffee pioneers in Marrakech. Simple does exactly what the name promises — exceptional coffee, minimal fuss, maximum quality. A serene spot to start the day or recharge mid-afternoon with a well-crafted flat white.</p>
+      </div>
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="thirty_tag">Specialty · Café</span>
+        <span class="venue-location" data-i18n="loc_gueliz">Guéliz</span>
+        <div class="venue-name">Thirty5ive Specialty Coffee</div>
+        <p class="venue-desc" data-i18n="thirty_desc">A sleek, modern coffee shop that takes its craft seriously. Single-origin beans, precision brewing, and a calm, well-designed interior that makes it a favourite among the city's creative crowd. Perfect for a focused work session or a slow morning.</p>
+      </div>
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="heibai_tag">Specialty · Café</span>
+        <span class="venue-location" data-i18n="loc_gueliz">Guéliz</span>
+        <div class="venue-name">HeiBai Specialty Coffee</div>
+        <p class="venue-desc" data-i18n="heibai_desc">The name means black and white — and the aesthetic matches: clean, contrasted, beautifully considered. HeiBai brings a minimalist approach to specialty coffee in Marrakech, with skilled baristas and a menu that rewards coffee lovers who know what they're looking for.</p>
+      </div>
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="gless_tag">Specialty · Café</span>
+        <span class="venue-location" data-i18n="loc_gueliz">Guéliz</span>
+        <div class="venue-name">Gless Coffee</div>
+        <p class="venue-desc" data-i18n="gless_desc">A neighbourhood favourite tucked into Guéliz's café scene. Gless has earned a loyal following for its relaxed atmosphere and quality brews — the kind of place you stumble upon, then keep coming back to. Great for a mid-morning catch-up or a solo read.</p>
+      </div>
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="teahouse_tag">Teahouse · Traditional</span>
+        <span class="venue-location" data-i18n="loc_medina">Medina</span>
+        <div class="venue-name">1112 Teahouse</div>
+        <p class="venue-desc" data-i18n="teahouse_desc">A refined, intimate teahouse nestled in the medina that elevates the Moroccan tea ritual. 1112 is the place to slow down, sip something beautifully made, and absorb the quiet soul of the city away from the souk's intensity. A genuine hidden gem.</p>
+        <p class="venue-note" data-i18n="teahouse_tip">Tip: Go in the afternoon when the medina light is at its best.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 🍽️ RESTAURANTS -->
+  <section class="category" id="food">
+    <div class="cat-header">
+      <span class="cat-eyebrow">🍽️</span>
+      <h2 class="cat-title" data-i18n="cat_food">Restaurants</h2>
+      <span class="cat-count" data-i18n="count_6">6 spots</span>
+    </div>
+    <div class="venue-grid">
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="nomad_tag">Modern Moroccan · Rooftop</span>
+        <span class="venue-location" data-i18n="loc_medina">Medina</span>
+        <div class="venue-name">NOMAD</div>
+        <p class="venue-desc" data-i18n="nomad_desc">Marrakech's most celebrated modern restaurant, set over four floors in a restored 1960s carpet store beside the Rahba Kedima spice square. NOMAD reinvents Moroccan cuisine with fresh local ingredients and serves it with sweeping rooftop views over the medina and Atlas Mountains. The zucchini fritters and lamb burger are legendary.</p>
+        <p class="venue-note" data-i18n="nomad_tip">Tip: Reserve the rooftop in advance — especially for sunset. Does not serve alcohol.</p>
+      </div>
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="limoni_tag">Italian · Medina Riad</span>
+        <span class="venue-location" data-i18n="loc_medina_bab">Medina (Bab Taghzout)</span>
+        <div class="venue-name">Limoni</div>
+        <p class="venue-desc" data-i18n="limoni_desc">A beautiful secret in the north of the medina — an Italian restaurant set in a tranquil riad courtyard fragrant with lemon trees. Limoni is the perfect escape when you need a break from tagines, offering excellent pizza, homemade pasta, and a serene setting that feels far removed from the souk's hustle.</p>
+        <p class="venue-note" data-i18n="limoni_tip">Tip: The pizza and panna cotta are highlights. Lunch menu is great value.</p>
+      </div>
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="sabich_tag">Israeli–Moroccan · Street Food</span>
+        <span class="venue-location" data-i18n="loc_medina_dar">Medina (Dar El Bacha)</span>
+        <div class="venue-name">Sabich</div>
+        <p class="venue-desc" data-i18n="sabich_desc">A legendary street food spot near the Dar El Bacha museum, serving the famous Israeli-Iraqi sabich pita — stuffed with fried aubergine, boiled egg, and an array of vibrant toppings. Completely vegetarian-friendly, quick, cheap, and absolutely delicious. The labneh with candied tomatoes is not to be missed.</p>
+        <p class="venue-note" data-i18n="sabich_tip">Tip: There can be a queue — it's worth it. Go for the egg sabich.</p>
+      </div>
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="roti_tag">Classic Grill · Garden</span>
+        <span class="venue-location" data-i18n="loc_gueliz">Guéliz</span>
+        <div class="venue-name">Rotisserie de la Paix</div>
+        <p class="venue-desc" data-i18n="roti_desc">A true Marrakech institution, open since 1949 and still run by the same family three generations later. Set in a 2,000m² garden with free-roaming peacocks, La Rôtisserie specialises in wood-fired grills — the steaks, grillades, and brochettes are exceptional. A beloved local favourite and a rare piece of living history.</p>
+        <p class="venue-note" data-i18n="roti_tip">Tip: Dine in the garden. Friday is couscous day.</p>
+      </div>
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="blue_tag">All-Day · Mediterranean</span>
+        <span class="venue-location" data-i18n="loc_gueliz">Guéliz</span>
+        <div class="venue-name">Blue Ribbon</div>
+        <p class="venue-desc" data-i18n="blue_desc">A bright, welcoming all-day café and restaurant in Guéliz built around sustainability and farm-to-table values. Blue Ribbon sources produce with purpose and presents it with real culinary care — from artisan pastries and specialty coffee in the morning to creative, fresh lunches and brunches. Widely regarded as one of the best breakfasts in the city.</p>
+      </div>
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="kilin_tag">Mediterranean · Evening</span>
+        <span class="venue-location" data-i18n="loc_gueliz">Guéliz</span>
+        <div class="venue-name">Kilin</div>
+        <p class="venue-desc" data-i18n="kilin_desc">One of Marrakech's coolest after-hours hangouts, Kilin serves excellent food alongside cocktails and a soundtrack that shifts from Arabic pop to techno depending on the night. The Korean fried chicken burger is a standout. It also hosts a rotating programme of events — vintage markets, slam poetry, game nights — making it a true cultural hub for the city's creative scene.</p>
+        <p class="venue-note" data-i18n="kilin_tip">Tip: Check their social media for events. Best from 9pm onwards.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 🌅 ROOFTOPS & BARS -->
+  <section class="category" id="rooftops">
+    <div class="cat-header">
+      <span class="cat-eyebrow">🌅</span>
+      <h2 class="cat-title" data-i18n="cat_rooftops">Rooftops &amp; Bars</h2>
+      <span class="cat-count" data-i18n="count_4">4 spots</span>
+    </div>
+    <div class="venue-grid">
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="lola_tag">Rooftop · Tapas · Pool</span>
+        <span class="venue-location" data-i18n="loc_2ciels">Guéliz (2Ciels Hotel)</span>
+        <div class="venue-name">Lola Sky</div>
+        <p class="venue-desc" data-i18n="lola_desc">The rooftop lounge of the boutique 2Ciels hotel, offering panoramic 360° views over Marrakech with an infinity pool, DJ, and a menu of Spanish-inspired gourmet tapas. Perfect for sundowners with a cocktail in hand. The Sahara-hued decor and resident soundtrack create an atmosphere that is equal parts chic and fun.</p>
+        <p class="venue-note" data-i18n="lola_tip">Tip: Book ahead. Adults (21+) only. Best at sunset.</p>
+      </div>
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="petanque_tag">Garden Bar · Social Club</span>
+        <span class="venue-location" data-i18n="loc_gueliz">Guéliz</span>
+        <div class="venue-name">Pétanque</div>
+        <p class="venue-desc" data-i18n="petanque_desc">One of Marrakech's most distinctive spaces — a 1930s pétanque club lovingly restored into a garden social club scented with jasmine. Mismatched vintage furniture, 1970s La Mamounia chairs, and a working pétanque court make it feel like a private members' club that's actually welcoming to all. The Sahara Spritz is the signature cocktail.</p>
+        <p class="venue-note" data-i18n="petanque_tip">Tip: Ring the doorbell — entrance is through an unmarked door. Reservation recommended.</p>
+      </div>
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="liva_tag">Cocktail Bar · Lounge</span>
+        <span class="venue-location" data-i18n="loc_gueliz">Guéliz</span>
+        <div class="venue-name">Liva Marrakech</div>
+        <p class="venue-desc" data-i18n="liva_desc">A stylish bar and lounge space that has established itself as one of Guéliz's most atmospheric evening destinations. Liva combines inventive cocktails with a warm, considered interior and the kind of easy energy that makes it feel equally suited to a quiet drink or a late night. A rising favourite among locals and expats alike.</p>
+      </div>
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="luxe_tag">English Bar · Classic</span>
+        <span class="venue-location" data-i18n="loc_gueliz">Guéliz</span>
+        <div class="venue-name">Luxe Nassim English Style Bar</div>
+        <p class="venue-desc" data-i18n="luxe_desc">A proper bar in the classic English mould — reliably stocked, unpretentious, and genuinely welcoming. Luxe Nassim offers a familiar comfort in a city where good bars can be hard to find, with a strong selection of drinks, a relaxed atmosphere, and the kind of unhurried service that encourages you to stay for another round.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 🥙 CASUAL BITES -->
+  <section class="category" id="casual">
+    <div class="cat-header">
+      <span class="cat-eyebrow">🥙</span>
+      <h2 class="cat-title" data-i18n="cat_casual">Casual &amp; Local Favourites</h2>
+      <span class="cat-count" data-i18n="count_3">3 spots</span>
+    </div>
+    <div class="venue-grid">
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="terrasse_tag">Terrace · Café</span>
+        <span class="venue-location" data-i18n="loc_medina">Medina</span>
+        <div class="venue-name">La Terrasse du Jardin</div>
+        <p class="venue-desc" data-i18n="terrasse_desc">A peaceful terrace café that sits at the edge of one of the medina's hidden gardens, offering shade, calm, and simple, honest food and drinks. The ideal spot to decompress after a morning in the souks — mint tea, a light lunch, and the quiet company of birds and greenery.</p>
+        <p class="venue-note" data-i18n="terrasse_tip">Tip: Go in the morning or early afternoon to enjoy the garden light.</p>
+      </div>
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="bahria_tag">Medina · Seafood · Local</span>
+        <span class="venue-location" data-i18n="loc_medina">Medina</span>
+        <div class="venue-name">Snack El Bahria</div>
+        <p class="venue-desc" data-i18n="bahria_desc">A no-frills, much-loved local snack spot that delivers some of the most flavourful grilled seafood in the medina at very honest prices. This is where locals eat, not tourists. Small, slightly chaotic, and completely wonderful — a real slice of everyday Marrakech life. Bring cash and come hungry.</p>
+        <p class="venue-note" data-i18n="bahria_tip">Tip: Go at lunch when the fish is freshest.</p>
+      </div>
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="benyoussef_tag">Medina · Historic · Cultural</span>
+        <span class="venue-location" data-i18n="loc_benyoussef">Medina (Ben Youssef)</span>
+        <div class="venue-name">Ben Youssef</div>
+        <p class="venue-desc" data-i18n="benyoussef_desc">Named for the extraordinary 14th-century Quranic school in the heart of the northern medina, the Ben Youssef area is a must-visit cultural destination. Stop here after exploring the madrasa and the souks — the surrounding streets are quieter and more atmospheric, with excellent cafés and local vendors nearby.</p>
+        <p class="venue-note" data-i18n="benyoussef_tip">Tip: Visit the Ben Youssef Madrasa itself — one of the finest pieces of Islamic architecture in Morocco.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 🎨 ART & CULTURE -->
+  <section class="category" id="culture">
+    <div class="cat-header">
+      <span class="cat-eyebrow">🎨</span>
+      <h2 class="cat-title" data-i18n="cat_culture">Art &amp; Culture</h2>
+      <span class="cat-count" data-i18n="count_1">1 spot</span>
+    </div>
+    <div class="venue-grid">
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="lblassa_tag">Art Gallery · Concept Space</span>
+        <span class="venue-location" data-i18n="loc_medgueliz">Medina / Guéliz</span>
+        <div class="venue-name">L'blassa Art Gallery</div>
+        <p class="venue-desc" data-i18n="lblassa_desc">A dynamic contemporary art gallery and cultural space that has become a genuine anchor for Marrakech's creative community. L'blassa — the word means "the place" in Darija — curates exhibitions from Moroccan and international artists with a thoughtful programme spanning painting, photography, and installation. Stop in to see what's on — it's always worth it.</p>
+        <p class="venue-note" data-i18n="lblassa_tip">Tip: Check their social media for opening events and vernissages.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 🥐 PATISSERIE -->
+  <section class="category" id="sweet">
+    <div class="cat-header">
+      <span class="cat-eyebrow">🥐</span>
+      <h2 class="cat-title" data-i18n="cat_sweet">Patisserie &amp; Sweet Treats</h2>
+      <span class="cat-count" data-i18n="count_1">1 spot</span>
+    </div>
+    <div class="venue-grid">
+
+      <div class="venue-card">
+        <span class="venue-tag" data-i18n="amandine_tag">French · Moroccan Pastry · Since 1997</span>
+        <span class="venue-location" data-i18n="loc_gueliz">Guéliz</span>
+        <div class="venue-name">Amandine Patisserie</div>
+        <p class="venue-desc" data-i18n="amandine_desc">The undisputed queen of Marrakech patisseries. Amandine has been a Guéliz institution since 1997, blending French baking mastery with Moroccan pastry tradition. The display counter alone is a work of art — kaab el ghazal, mille-feuille, macarons, fruit tarts, and dozens of almond-based Moroccan sweets. Order a coffee and a plate of mixed cookies and find a table outside.</p>
+        <p class="venue-note" data-i18n="amandine_tip">Tip: The lemon meringue tart and orange blossom macarons are exceptional.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="guide-footer">
+    <div class="footer-brand">Atlas Host Co</div>
+    <div class="footer-tagline">Mosii · Gool · Marrakech</div>
+    <div class="footer-copy" data-i18n="footer_copy">© 2025 Atlas Host Co · info@atlashostco.com</div>
+  </footer>
+
+<script>
+const T = {
+  en: {
+    header_brand: 'Atlas Host Co · Marrakech',
+    header_title_1: 'Our Favourite', header_title_2: 'Places in the City',
+    header_subtitle: 'A curated guide to the restaurants, cafés, bars, and cultural spots we love and recommend to every guest. From medina hidden gems to Guéliz rooftops — these are the places that make Marrakech unmissable.',
+    nav_coffee: 'Coffee', nav_food: 'Restaurants', nav_rooftops: 'Rooftops & Bars', nav_casual: 'Casual Bites', nav_culture: 'Art & Culture', nav_sweet: 'Patisserie',
+    cat_coffee: 'Specialty Coffee', cat_food: 'Restaurants', cat_rooftops: 'Rooftops & Bars', cat_casual: 'Casual & Local Favourites', cat_culture: 'Art & Culture', cat_sweet: 'Patisserie & Sweet Treats',
+    count_1: '1 spot', count_3: '3 spots', count_4: '4 spots', count_5: '5 spots', count_6: '6 spots',
+    loc_gueliz: 'Guéliz', loc_medina: 'Medina', loc_medina_bab: 'Medina (Bab Taghzout)', loc_medina_dar: 'Medina (Dar El Bacha)', loc_benyoussef: 'Medina (Ben Youssef)', loc_2ciels: 'Guéliz (2Ciels Hotel)', loc_medgueliz: 'Medina / Guéliz',
+    simple_tag: 'Specialty · All Day', simple_desc: "One of the original specialty coffee pioneers in Marrakech. Simple does exactly what the name promises — exceptional coffee, minimal fuss, maximum quality. A serene spot to start the day or recharge mid-afternoon with a well-crafted flat white.",
+    thirty_tag: 'Specialty · Café', thirty_desc: "A sleek, modern coffee shop that takes its craft seriously. Single-origin beans, precision brewing, and a calm, well-designed interior that makes it a favourite among the city's creative crowd. Perfect for a focused work session or a slow morning.",
+    heibai_tag: 'Specialty · Café', heibai_desc: "The name means black and white — and the aesthetic matches: clean, contrasted, beautifully considered. HeiBai brings a minimalist approach to specialty coffee in Marrakech, with skilled baristas and a menu that rewards coffee lovers who know what they're looking for.",
+    gless_tag: 'Specialty · Café', gless_desc: "A neighbourhood favourite tucked into Guéliz's café scene. Gless has earned a loyal following for its relaxed atmosphere and quality brews — the kind of place you stumble upon, then keep coming back to. Great for a mid-morning catch-up or a solo read.",
+    teahouse_tag: 'Teahouse · Traditional', teahouse_desc: "A refined, intimate teahouse nestled in the medina that elevates the Moroccan tea ritual. 1112 is the place to slow down, sip something beautifully made, and absorb the quiet soul of the city away from the souk's intensity. A genuine hidden gem.", teahouse_tip: 'Tip: Go in the afternoon when the medina light is at its best.',
+    nomad_tag: 'Modern Moroccan · Rooftop', nomad_desc: "Marrakech's most celebrated modern restaurant, set over four floors in a restored 1960s carpet store beside the Rahba Kedima spice square. NOMAD reinvents Moroccan cuisine with fresh local ingredients and serves it with sweeping rooftop views over the medina and Atlas Mountains. The zucchini fritters and lamb burger are legendary.", nomad_tip: 'Tip: Reserve the rooftop in advance — especially for sunset. Does not serve alcohol.',
+    limoni_tag: 'Italian · Medina Riad', limoni_desc: "A beautiful secret in the north of the medina — an Italian restaurant set in a tranquil riad courtyard fragrant with lemon trees. Limoni is the perfect escape when you need a break from tagines, offering excellent pizza, homemade pasta, and a serene setting that feels far removed from the souk's hustle.", limoni_tip: 'Tip: The pizza and panna cotta are highlights. Lunch menu is great value.',
+    sabich_tag: 'Israeli–Moroccan · Street Food', sabich_desc: "A legendary street food spot near the Dar El Bacha museum, serving the famous Israeli-Iraqi sabich pita — stuffed with fried aubergine, boiled egg, and an array of vibrant toppings. Completely vegetarian-friendly, quick, cheap, and absolutely delicious. The labneh with candied tomatoes is not to be missed.", sabich_tip: "Tip: There can be a queue — it's worth it. Go for the egg sabich.",
+    roti_tag: 'Classic Grill · Garden', roti_desc: "A true Marrakech institution, open since 1949 and still run by the same family three generations later. Set in a 2,000m² garden with free-roaming peacocks, La Rôtisserie specialises in wood-fired grills — the steaks, grillades, and brochettes are exceptional. A beloved local favourite and a rare piece of living history.", roti_tip: 'Tip: Dine in the garden. Friday is couscous day.',
+    blue_tag: 'All-Day · Mediterranean', blue_desc: "A bright, welcoming all-day café and restaurant in Guéliz built around sustainability and farm-to-table values. Blue Ribbon sources produce with purpose and presents it with real culinary care — from artisan pastries and specialty coffee in the morning to creative, fresh lunches and brunches. Widely regarded as one of the best breakfasts in the city.",
+    kilin_tag: 'Mediterranean · Evening', kilin_desc: "One of Marrakech's coolest after-hours hangouts, Kilin serves excellent food alongside cocktails and a soundtrack that shifts from Arabic pop to techno depending on the night. The Korean fried chicken burger is a standout. It also hosts a rotating programme of events — vintage markets, slam poetry, game nights — making it a true cultural hub for the city's creative scene.", kilin_tip: 'Tip: Check their social media for events. Best from 9pm onwards.',
+    lola_tag: 'Rooftop · Tapas · Pool', lola_desc: "The rooftop lounge of the boutique 2Ciels hotel, offering panoramic 360° views over Marrakech with an infinity pool, DJ, and a menu of Spanish-inspired gourmet tapas. Perfect for sundowners with a cocktail in hand. The Sahara-hued decor and resident soundtrack create an atmosphere that is equal parts chic and fun.", lola_tip: 'Tip: Book ahead. Adults (21+) only. Best at sunset.',
+    petanque_tag: 'Garden Bar · Social Club', petanque_desc: "One of Marrakech's most distinctive spaces — a 1930s pétanque club lovingly restored into a garden social club scented with jasmine. Mismatched vintage furniture, 1970s La Mamounia chairs, and a working pétanque court make it feel like a private members' club that's actually welcoming to all. The Sahara Spritz is the signature cocktail.", petanque_tip: 'Tip: Ring the doorbell — entrance is through an unmarked door. Reservation recommended.',
+    liva_tag: 'Cocktail Bar · Lounge', liva_desc: "A stylish bar and lounge space that has established itself as one of Guéliz's most atmospheric evening destinations. Liva combines inventive cocktails with a warm, considered interior and the kind of easy energy that makes it feel equally suited to a quiet drink or a late night. A rising favourite among locals and expats alike.",
+    luxe_tag: 'English Bar · Classic', luxe_desc: "A proper bar in the classic English mould — reliably stocked, unpretentious, and genuinely welcoming. Luxe Nassim offers a familiar comfort in a city where good bars can be hard to find, with a strong selection of drinks, a relaxed atmosphere, and the kind of unhurried service that encourages you to stay for another round.",
+    terrasse_tag: 'Terrace · Café', terrasse_desc: "A peaceful terrace café that sits at the edge of one of the medina's hidden gardens, offering shade, calm, and simple, honest food and drinks. The ideal spot to decompress after a morning in the souks — mint tea, a light lunch, and the quiet company of birds and greenery.", terrasse_tip: 'Tip: Go in the morning or early afternoon to enjoy the garden light.',
+    bahria_tag: 'Medina · Seafood · Local', bahria_desc: "A no-frills, much-loved local snack spot that delivers some of the most flavourful grilled seafood in the medina at very honest prices. This is where locals eat, not tourists. Small, slightly chaotic, and completely wonderful — a real slice of everyday Marrakech life. Bring cash and come hungry.", bahria_tip: 'Tip: Go at lunch when the fish is freshest.',
+    benyoussef_tag: 'Medina · Historic · Cultural', benyoussef_desc: "Named for the extraordinary 14th-century Quranic school in the heart of the northern medina, the Ben Youssef area is a must-visit cultural destination. Stop here after exploring the madrasa and the souks — the surrounding streets are quieter and more atmospheric, with excellent cafés and local vendors nearby.", benyoussef_tip: 'Tip: Visit the Ben Youssef Madrasa itself — one of the finest pieces of Islamic architecture in Morocco.',
+    lblassa_tag: 'Art Gallery · Concept Space', lblassa_desc: "A dynamic contemporary art gallery and cultural space that has become a genuine anchor for Marrakech's creative community. L'blassa — the word means \"the place\" in Darija — curates exhibitions from Moroccan and international artists with a thoughtful programme spanning painting, photography, and installation. Stop in to see what's on — it's always worth it.", lblassa_tip: 'Tip: Check their social media for opening events and vernissages.',
+    amandine_tag: 'French · Moroccan Pastry · Since 1997', amandine_desc: "The undisputed queen of Marrakech patisseries. Amandine has been a Guéliz institution since 1997, blending French baking mastery with Moroccan pastry tradition. The display counter alone is a work of art — kaab el ghazal, mille-feuille, macarons, fruit tarts, and dozens of almond-based Moroccan sweets. Order a coffee and a plate of mixed cookies and find a table outside.", amandine_tip: 'Tip: The lemon meringue tart and orange blossom macarons are exceptional.',
+    footer_copy: '© 2025 Atlas Host Co · info@atlashostco.com'
+  },
+
+  fr: {
+    header_brand: 'Atlas Host Co · Marrakech',
+    header_title_1: 'Nos Adresses', header_title_2: 'Coups de Cœur',
+    header_subtitle: "Un guide soigneusement sélectionné des restaurants, cafés, bars et lieux culturels que nous aimons et recommandons à chaque voyageur. Des perles cachées de la médina aux rooftops de Guéliz — les adresses qui rendent Marrakech inoubliable.",
+    nav_coffee: 'Café', nav_food: 'Restaurants', nav_rooftops: 'Rooftops & Bars', nav_casual: 'Sur le Pouce', nav_culture: 'Art & Culture', nav_sweet: 'Pâtisserie',
+    cat_coffee: 'Café de Spécialité', cat_food: 'Restaurants', cat_rooftops: 'Rooftops & Bars', cat_casual: 'Adresses Locales', cat_culture: 'Art & Culture', cat_sweet: 'Pâtisserie & Douceurs',
+    count_1: '1 adresse', count_3: '3 adresses', count_4: '4 adresses', count_5: '5 adresses', count_6: '6 adresses',
+    loc_gueliz: 'Guéliz', loc_medina: 'Médina', loc_medina_bab: 'Médina (Bab Taghzout)', loc_medina_dar: 'Médina (Dar El Bacha)', loc_benyoussef: 'Médina (Ben Youssef)', loc_2ciels: 'Guéliz (Hôtel 2Ciels)', loc_medgueliz: 'Médina / Guéliz',
+    simple_tag: 'Spécialité · Toute la journée', simple_desc: "L'un des pionniers du café de spécialité à Marrakech. Simple fait exactement ce que son nom promet — un café d'exception, sans chichis, avec une qualité maximale. Un endroit serein pour commencer la journée ou recharger les batteries en milieu d'après-midi avec un flat white bien exécuté.",
+    thirty_tag: 'Spécialité · Café', thirty_desc: "Un café moderne et épuré qui prend son métier au sérieux. Grains d'origine unique, extraction de précision, et un intérieur soigné et apaisant qui en fait le favori de la scène créative de la ville. Idéal pour une session de travail concentrée ou un matin tranquille.",
+    heibai_tag: 'Spécialité · Café', heibai_desc: "Le nom signifie noir et blanc — et l'esthétique est à l'avenant : propre, contrastée, subtilement pensée. HeiBai apporte une approche minimaliste au café de spécialité à Marrakech, avec des baristas talentueux et une carte qui récompense les vrais amateurs.",
+    gless_tag: 'Spécialité · Café', gless_desc: "Un favori du quartier niché dans la scène café de Guéliz. Gless s'est constitué une clientèle fidèle grâce à son atmosphère détendue et ses boissons de qualité — le genre d'endroit qu'on découvre par hasard, puis où l'on revient sans cesse. Parfait pour un rendez-vous matinal ou une lecture solitaire.",
+    teahouse_tag: 'Salon de Thé · Traditionnel', teahouse_desc: "Un salon de thé raffiné et intime niché dans la médina, qui élève le rituel du thé marocain au rang d'art. Le 1112 est l'endroit idéal pour ralentir, savourer quelque chose de finement préparé, et s'imprégner de l'âme silencieuse de la ville loin de l'intensité du souk. Un vrai bijou caché.", teahouse_tip: "Conseil : Allez-y l'après-midi quand la lumière de la médina est la plus belle.",
+    nomad_tag: 'Marocain Moderne · Rooftop', nomad_desc: "Le restaurant moderne le plus célèbre de Marrakech, installé sur quatre étages dans une ancienne boutique de tapis des années 1960 près de la place Rahba Kedima. NOMAD réinvente la cuisine marocaine avec des ingrédients locaux frais, servis avec une vue panoramique sur la médina et l'Atlas. Les beignets de courgettes et le burger à l'agneau sont légendaires.", nomad_tip: "Conseil : Réservez le rooftop à l'avance, surtout pour le coucher de soleil. Ne sert pas d'alcool.",
+    limoni_tag: 'Italien · Riad Médina', limoni_desc: "Un beau secret dans le nord de la médina — un restaurant italien niché dans la cour tranquille d'un riad parfumée aux citronniers. Limoni est l'escapade idéale quand vous avez besoin d'une pause tagine, avec d'excellentes pizzas, des pâtes maison, et un cadre serein loin de l'agitation des souks.", limoni_tip: "Conseil : La pizza et la panna cotta sont les incontournables. Le menu du déjeuner est excellent rapport qualité-prix.",
+    sabich_tag: 'Israélo-Marocain · Street Food', sabich_desc: "Un spot de street food légendaire près du musée Dar El Bacha, servant la célèbre pita sabich israélo-irakienne — farcie d'aubergine frite, d'œuf dur et d'une multitude de garnitures colorées. Entièrement végétarien, rapide, pas cher, et absolument délicieux. Le labneh aux tomates confites est à ne pas manquer.", sabich_tip: "Conseil : Il peut y avoir une queue — ça vaut l'attente. Optez pour le sabich à l'œuf.",
+    roti_tag: 'Grill Classique · Jardin', roti_desc: "Une véritable institution marrakchie, ouverte depuis 1949 et toujours tenue par la même famille trois générations plus tard. Installée dans un jardin de 2 000 m² avec des paons en liberté, La Rôtisserie se spécialise dans les grillades au feu de bois — les steaks, grillades et brochettes sont exceptionnels. Un favori des locaux et un rare morceau d'histoire vivante.", roti_tip: "Conseil : Dînez dans le jardin. Le vendredi, c'est couscous.",
+    blue_tag: 'Toute la Journée · Méditerranéen', blue_desc: "Un café-restaurant accueillant et lumineux à Guéliz, construit autour de valeurs de durabilité et de cuisine de saison. Blue Ribbon sélectionne ses produits avec soin et les met en valeur avec une vraie attention culinaire — des viennoiseries artisanales et du café de spécialité le matin aux déjeuners et brunchs frais et créatifs. Considéré comme l'un des meilleurs petits-déjeuners de la ville.",
+    kilin_tag: 'Méditerranéen · Soirée', kilin_desc: "L'un des endroits les plus branchés de Marrakech après l'heure de pointe, Kilin propose une excellente cuisine accompagnée de cocktails et d'une bande-son qui passe de la pop arabe à la techno selon les soirs. Le burger au poulet frit coréen est un incontournable. Il accueille aussi un programme tournant d'événements — marchés vintage, slam, soirées jeux — en faisant un véritable hub culturel de la scène créative.", kilin_tip: 'Conseil : Consultez leurs réseaux sociaux pour les événements. Le mieux à partir de 21h.',
+    lola_tag: 'Rooftop · Tapas · Piscine', lola_desc: "Le lounge rooftop du boutique hôtel 2Ciels, offrant une vue panoramique à 360° sur Marrakech avec une piscine à débordement, un DJ, et une carte de tapas gastronomiques d'inspiration espagnole. Idéal pour les sundowners cocktail en main. Le décor aux teintes sahariennes et la musique ambiante créent une atmosphère aussi chic que festive.", lola_tip: 'Conseil : Réservez à l\'avance. Adultes (21+) uniquement. Le mieux au coucher du soleil.',
+    petanque_tag: 'Bar Jardin · Club Social', petanque_desc: "L'un des espaces les plus singuliers de Marrakech — un club de pétanque des années 1930 amoureusement restauré en club social de jardin parfumé au jasmin. Mobilier vintage dépareillé, chaises La Mamounia des années 1970, et un terrain de pétanque fonctionnel qui lui donnent des airs de club privé, mais ouvert à tous. Le Sahara Spritz est le cocktail signature.", petanque_tip: "Conseil : Sonnez à la porte — l'entrée est par une porte anonyme. Réservation conseillée.",
+    liva_tag: 'Bar à Cocktails · Lounge', liva_desc: "Un bar et lounge élégant qui s'est imposé comme l'une des destinations de soirée les plus atmosphériques de Guéliz. Liva associe des cocktails inventifs à un intérieur chaleureux et réfléchi, avec une énergie facile qui convient aussi bien à un verre tranquille qu'à une nuit prolongée. Favori croissant des locaux et des expatriés.",
+    luxe_tag: 'Bar Anglais · Classique', luxe_desc: "Un vrai bar dans le moule classique anglais — bien approvisionné, sans prétention, et sincèrement accueillant. Luxe Nassim offre un confort familier dans une ville où les bons bars sont rares, avec une belle sélection de boissons, une ambiance détendue et un service tranquille qui vous invite à rester pour un autre verre.",
+    terrasse_tag: 'Terrasse · Café', terrasse_desc: "Un café-terrasse paisible niché au bord d'un des jardins cachés de la médina, offrant ombre, calme, et une cuisine simple et honnête. L'endroit idéal pour décompresser après une matinée dans les souks — thé à la menthe, déjeuner léger, et la douce compagnie des oiseaux et de la verdure.", terrasse_tip: "Conseil : Allez-y le matin ou en début d'après-midi pour profiter de la lumière du jardin.",
+    bahria_tag: 'Médina · Fruits de Mer · Local', bahria_desc: "Un spot snack sans chichis, très apprécié, qui propose quelques-uns des fruits de mer grillés les plus savoureux de la médina à des prix très honnêtes. C'est là que mangent les locaux, pas les touristes. Petit, un peu chaotique, et absolument merveilleux — une vraie tranche de vie marrakchie. Venez avec du cash et l'appétit.", bahria_tip: 'Conseil : Allez à midi quand le poisson est le plus frais.',
+    benyoussef_tag: 'Médina · Historique · Culturel', benyoussef_desc: "Nommée d'après l'extraordinaire médersa coranique du XIVe siècle au cœur de la médina nord, le quartier Ben Youssef est une destination culturelle incontournable. Arrêtez-vous ici après avoir exploré la médersa et les souks — les rues environnantes sont plus calmes et plus atmosphériques que le circuit touristique principal, avec d'excellents cafés et vendeurs locaux.", benyoussef_tip: "Conseil : Visitez la Médersa Ben Youssef elle-même — l'un des plus beaux exemples d'architecture islamique du Maroc.",
+    lblassa_tag: 'Galerie d\'Art · Espace Concept', lblassa_desc: "Une galerie d'art contemporain dynamique et un espace culturel devenu un véritable ancrage pour la communauté créative de Marrakech. L'blassa — le mot signifie \"la place\" en darija — propose des expositions d'artistes marocains et internationaux avec un programme réfléchi couvrant peinture, photographie et installation. Entrez voir ce qui est à l'affiche — ça vaut toujours le détour.", lblassa_tip: 'Conseil : Consultez leurs réseaux sociaux pour les vernissages et événements.',
+    amandine_tag: 'Français · Pâtisserie Marocaine · Depuis 1997', amandine_desc: "La reine incontestée des pâtisseries de Marrakech. Amandine est une institution de Guéliz depuis 1997, mêlant la maîtrise de la boulangerie française à la tradition pâtissière marocaine. Le comptoir d'exposition à lui seul est une œuvre d'art — kaab el ghazal, mille-feuille, macarons, tartes aux fruits et des dizaines de douceurs marocaines aux amandes. Commandez un café et une assiette de petits gâteaux mélangés et trouvez une table dehors.", amandine_tip: 'Conseil : La tarte au citron meringuée et les macarons à la fleur d\'oranger sont exceptionnels.',
+    footer_copy: '© 2025 Atlas Host Co · info@atlashostco.com'
+  },
+
+  ar: {
+    header_brand: 'أطلس هوست كو · مراكش',
+    header_title_1: 'وجهاتنا المفضلة', header_title_2: 'في قلب المدينة',
+    header_subtitle: 'دليل منتقى بعناية للمطاعم والمقاهي والبارات والأماكن الثقافية التي نحبها ونوصي بها لكل ضيف. من كنوز المدينة العتيقة الخفية إلى أسطح غليز — هذه هي الأماكن التي تجعل مراكش لا تُنسى.',
+    nav_coffee: 'القهوة', nav_food: 'المطاعم', nav_rooftops: 'الأسطح والبارات', nav_casual: 'وجبات خفيفة', nav_culture: 'الفن والثقافة', nav_sweet: 'الحلويات',
+    cat_coffee: 'قهوة متخصصة', cat_food: 'المطاعم', cat_rooftops: 'الأسطح والبارات', cat_casual: 'أماكن محلية مفضلة', cat_culture: 'الفن والثقافة', cat_sweet: 'حلواني ومتاجر الحلوى',
+    count_1: 'مكان واحد', count_3: '3 أماكن', count_4: '4 أماكن', count_5: '5 أماكن', count_6: '6 أماكن',
+    loc_gueliz: 'غليز', loc_medina: 'المدينة العتيقة', loc_medina_bab: 'المدينة (باب تاغزوت)', loc_medina_dar: 'المدينة (دار الباشا)', loc_benyoussef: 'المدينة (بن يوسف)', loc_2ciels: 'غليز (فندق 2Ciels)', loc_medgueliz: 'المدينة / غليز',
+    simple_tag: 'متخصص · طوال اليوم', simple_desc: 'أحد رواد قهوة التخصص الأوائل في مراكش. يفعل Simple تمامًا ما يعد به اسمه — قهوة استثنائية، بساطة في التقديم، وجودة قصوى. مكان هادئ لبدء اليوم أو استعادة النشاط في منتصف بعد الظهر مع flat white مُعدّ باحتراف.',
+    thirty_tag: 'متخصص · مقهى', thirty_desc: 'مقهى حديث وأنيق يأخذ حرفته بجدية تامة. حبوب من مصدر واحد، تحضير دقيق، وديكور داخلي هادئ ومتقن يجعله المكان المفضل لدى المبدعين في المدينة. مثالي لجلسة عمل مركّزة أو صباح متأنٍّ.',
+    heibai_tag: 'متخصص · مقهى', heibai_desc: 'الاسم يعني الأبيض والأسود — والجماليات تعكس ذلك تمامًا: نظيفة، متباينة، مدروسة بعناية. تجلب HeiBai نهجًا تقليليًا لقهوة التخصص في مراكش، مع باريستا ماهرين وقائمة تُكافئ عشاق القهوة الحقيقيين.',
+    gless_tag: 'متخصص · مقهى', gless_desc: 'مفضّل في الحي مختبئ وسط مشهد المقاهي في غليز. اكتسبت Gless قاعدة زبائن وفية بفضل أجوائها المريحة ومشروباتها الراقية — النوع من الأماكن التي تكتشفها بالصدفة ثم لا تتوقف عن العودة إليها. رائعة لاجتماع صباحي أو قراءة بمفردك.',
+    teahouse_tag: 'بيت شاي · تقليدي', teahouse_desc: 'بيت شاي راقٍ وحميمي متعشق داخل المدينة العتيقة يرتقي بطقوس الشاي المغربي إلى مستوى آخر. 1112 هو المكان الذي تتباطأ فيه، وتتجرع شيئًا مُعدًّا بإتقان، وتمتص روح المدينة الهادئة بعيدًا عن صخب الأسواق. جوهرة خفية حقيقية.', teahouse_tip: 'نصيحة: اذهب في فترة بعد الظهر حين يكون ضوء المدينة العتيقة في أجمل حالاته.',
+    nomad_tag: 'مغربي حديث · سطح', nomad_desc: 'أكثر المطاعم الحديثة شهرة في مراكش، يمتد على أربعة طوابق في متجر سجاد مُرمَّم من ستينيات القرن الماضي بجوار ساحة رحبة القديم. يُعيد NOMAD اختراع المطبخ المغربي بمكونات طازجة ومحلية ويقدمه مع إطلالات بانورامية على المدينة العتيقة وجبال الأطلس. فطائر الكوسا وبرغر الضأن أسطوريان.', nomad_tip: 'نصيحة: احجز الطابق العلوي مسبقًا — خاصة لغروب الشمس. لا يقدم الكحول.',
+    limoni_tag: 'إيطالي · رياض المدينة', limoni_desc: 'سرٌّ جميل في شمال المدينة العتيقة — مطعم إيطالي في فناء رياض هادئ عطر بأشجار الليمون. Limoni هو الملاذ المثالي حين تحتاج إلى استراحة من الطاجين، مع بيتزا رائعة ومعكرونة محلية الصنع وأجواء هادئة تبدو بعيدة كل البعد عن صخب الأسواق.', limoni_tip: 'نصيحة: البيتزا والبانا كوتا من أبرز ما يقدمه. قائمة الغداء ذات قيمة ممتازة.',
+    sabich_tag: 'إسرائيلي-مغربي · طعام الشارع', sabich_desc: 'بقعة طعام شارع أسطورية بالقرب من متحف دار الباشا، تقدم خبز الصاجيش الإسرائيلي العراقي الشهير — محشوًا بالباذنجان المقلي والبيض المسلوق ومجموعة من الإضافات الزاهية. صديق تمامًا للنباتيين، سريع ورخيص ولذيذ بشكل مذهل. اللبنة مع الطماطم المسكّرة لا تُفوَّت.', sabich_tip: 'نصيحة: قد يكون هناك طابور — يستحق الانتظار. اختر الصاجيش بالبيض.',
+    roti_tag: 'مشوي كلاسيكي · حديقة', roti_desc: 'مؤسسة حقيقية في مراكش مفتوحة منذ عام 1949 ولا تزال تديرها العائلة نفسها على مرّ ثلاثة أجيال. في حديقة تبلغ مساحتها 2000 متر مربع مع طواويس تتجول بحرية، تتخصص La Rôtisserie في المشويات على الحطب — اللحوم والكباب رائعة. مفضلة محلية عزيزة وقطعة نادرة من التاريخ الحي.', roti_tip: 'نصيحة: تناول العشاء في الحديقة. يوم الجمعة يوم الكسكس.',
+    blue_tag: 'طوال اليوم · متوسطي', blue_desc: 'مقهى ومطعم طوال اليوم مشرق ومرحّب به في غليز، مبني على قيم الاستدامة والمنتجات الموسمية. تختار Blue Ribbon منتجاتها بعناية وتقدمها باهتمام حقيقي — من المخبوزات الحرفية وقهوة التخصص في الصباح إلى وجبات الغداء والبرانش الطازجة والإبداعية. تُعدّ على نطاق واسع من أفضل وجبات الإفطار في المدينة.',
+    kilin_tag: 'متوسطي · مساء', kilin_desc: 'أحد أكثر أماكن الدردشة بعد ساعات العمل برودةً في مراكش، يقدم Kilin طعامًا ممتازًا إلى جانب الكوكتيلات وموسيقى تتأرجح بين البوب العربي والتكنو حسب الليلة. برغر الدجاج المقلي الكوري لافت للنظر. يستضيف أيضًا برنامجًا متنقلاً من الأحداث — أسواق خمراء وشعر الارتجال وأمسيات الألعاب — مما يجعله مركزًا ثقافيًا حقيقيًا.', kilin_tip: 'نصيحة: تحقق من وسائل التواصل الاجتماعي للأحداث. الأفضل من الساعة 9 مساءً.',
+    lola_tag: 'سطح · تاباس · حمام سباحة', lola_desc: 'صالة الاسترخاء على السطح لفندق 2Ciels البوتيكي، تقدم إطلالات بانورامية بزاوية 360° على مراكش مع حمام سباحة لا نهائي وحفلات موسيقية وقائمة تاباس راقية مستوحاة من المطبخ الإسباني. مثالية لمشروبات غروب الشمس كوكتيل في اليد. الديكور بألوان الصحراء والموسيقى الحية يخلقان أجواء بالغة الشياكة.', lola_tip: 'نصيحة: احجز مسبقًا. للبالغين (21+) فقط. الأفضل عند غروب الشمس.',
+    petanque_tag: 'بار حديقة · نادي اجتماعي', petanque_desc: 'أحد أكثر الأماكن تميزًا في مراكش — نادي بيتانك من ثلاثينيات القرن الماضي تم ترميمه بعناية وحوّله إلى نادي اجتماعي في حديقة عطرة بالياسمين. أثاث عتيق متنوع وكراسي La Mamounia من السبعينيات وملعب بيتانك يعمل يجعله يشعر كنادٍ خاص مفتوح للجميع. صاروخ الصحراء هو الكوكتيل المميز.', petanque_tip: 'نصيحة: اقرع الجرس — المدخل عبر باب غير مميّز. يُنصح بالحجز.',
+    liva_tag: 'بار كوكتيل · لاونج', liva_desc: 'مساحة بار وصالة أنيقة أثبتت مكانتها كواحدة من أكثر وجهات السهرة جاذبية في غليز. تجمع Liva بين كوكتيلات مبتكرة وديكور داخلي دافئ ومدروس وطاقة سهلة تجعلها مناسبة بالتساوي لمشروب هادئ أو ليلة طويلة. مفضلة متصاعدة لدى السكان المحليين والمغتربين.',
+    luxe_tag: 'بار إنجليزي · كلاسيكي', luxe_desc: 'بار حقيقي بالمعنى الإنجليزي الكلاسيكي — موثوق التوريد وغير متكبر ومرحّب به حقًا. يقدم Luxe Nassim راحة مألوفة في مدينة تنذر فيها البارات الجيدة، مع مجموعة قوية من المشروبات وأجواء مريحة وخدمة متأنية تشجعك على البقاء لجولة أخرى.',
+    terrasse_tag: 'تراس · مقهى', terrasse_desc: 'مقهى تراس هادئ يقع على حافة إحدى الحدائق الخفية في المدينة العتيقة، يوفر ظلاً وهدوءًا وطعامًا ومشروبات بسيطة وصادقة. المكان المثالي للاسترخاء بعد صباح في الأسواق — شاي النعناع وغداء خفيف وصحبة الطيور والخضرة الهادئة.', terrasse_tip: 'نصيحة: اذهب في الصباح أو بعد الظهر المبكر للاستمتاع بضوء الحديقة.',
+    bahria_tag: 'المدينة · مأكولات بحرية · محلي', bahria_desc: 'بقعة وجبات خفيفة شعبية بسيطة تقدم بعضًا من أشهى المأكولات البحرية المشوية في المدينة العتيقة بأسعار مقبولة جدًا. هذا هو المكان الذي يأكل فيه السكان المحليون لا السياح. صغير وفوضوي قليلًا ورائع تمامًا — قطعة حقيقية من حياة مراكش اليومية. أحضر نقودًا وتعال جائعًا.', bahria_tip: 'نصيحة: اذهب في وقت الغداء حين يكون السمك أطزج.',
+    benyoussef_tag: 'المدينة · تاريخي · ثقافي', benyoussef_desc: 'سُمّيت على اسم المدرسة القرآنية الاستثنائية من القرن الرابع عشر في قلب المدينة العتيقة الشمالية، منطقة بن يوسف وجهة ثقافية لا غنى عنها. توقف هنا بعد استكشاف المدرسة والأسواق — الشوارع المحيطة أكثر هدوءًا وجاذبية من الدائرة السياحية الرئيسية، مع مقاهٍ ممتازة وبائعين محليين قريبين.', benyoussef_tip: 'نصيحة: قم بزيارة مدرسة ابن يوسف نفسها — إحدى أروع الأمثلة على العمارة الإسلامية في المغرب.',
+    lblassa_tag: 'غاليري فن · فضاء متعدد', lblassa_desc: 'غاليري فن معاصر ديناميكي وفضاء ثقافي أصبح مرتكزًا حقيقيًا للمجتمع الإبداعي في مراكش. L\'blassa — تعني الكلمة "المكان" بالدارجة — تُقدّم معارض لفنانين مغاربة وعالميين ببرنامج مدروس يشمل الرسم والتصوير الفوتوغرافي والتركيب. تفضّل لترى ما هو معروض — يستحق دائمًا.', lblassa_tip: 'نصيحة: تابع وسائل التواصل الاجتماعي الخاصة بهم لحضور حفلات الافتتاح.',
+    amandine_tag: 'فرنسي · حلواني مغربي · منذ 1997', amandine_desc: 'الملكة غير المتنازع عليها لحلوانيات مراكش. Amandine مؤسسة راسخة في غليز منذ عام 1997، تمزج بين إتقان المخبوزات الفرنسية وتقاليد الحلواني المغربي. الواجهة الزجاجية وحدها تُعدّ تحفة فنية — كعب الغزال وميل فوي والماكرون وتارت الفاكهة وعشرات الحلويات المغربية المعتمدة على اللوز. اطلب قهوة وطبقًا من البسكويت المشكّل وابحث عن طاولة في الخارج.', amandine_tip: 'نصيحة: تارت الليمون المميرانغ وماكرون زهر البرتقال استثنائيان.',
+    footer_copy: '© 2025 أطلس هوست كو · info@atlashostco.com'
+  }
+};
+
+function setLang(lang) {
+  const t = T[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+  if (lang === 'ar') {
+    document.body.classList.add('rtl');
+    document.documentElement.setAttribute('lang', 'ar');
+  } else {
+    document.body.classList.remove('rtl');
+    document.documentElement.setAttribute('lang', lang);
+  }
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+}
+</script>
+</body>
+</html>
