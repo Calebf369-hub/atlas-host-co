@@ -171,9 +171,26 @@
     @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
     /* ─── RESPONSIVE ─── */
+    /* ─── HAMBURGER ─── */
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; z-index: 200; }
+    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--burgundy); transition: transform 0.3s, opacity 0.3s; transform-origin: center; }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .mobile-menu { display: none; position: fixed; inset: 0; background: var(--sand); z-index: 150; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.25s ease; pointer-events: none; }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+    .mobile-menu a, .mobile-menu .mobile-btn { display: block; font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; color: var(--burgundy); text-decoration: none; background: none; border: none; cursor: pointer; padding: 14px 40px; letter-spacing: 0.06em; transition: color 0.2s; text-align: center; width: 100%; }
+    .mobile-menu a:hover, .mobile-menu .mobile-btn:hover { color: var(--terra); }
+    .mobile-menu .mobile-guide-btn { color: var(--terra); font-style: italic; }
+    .mobile-lang { display: flex; gap: 24px; margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--sand-dark); }
+    .mobile-lang .lang-btn { font-size: 0.85rem; color: var(--burgundy); }
+
     @media (max-width: 900px) {
       nav { padding: 20px 30px; }
-      .nav-links { gap: 20px; }
+      .nav-links { display: none; }
+      .lang-selector { display: none; }
+      .hamburger { display: flex; }
       .hero { grid-template-columns: 1fr; }
       .hero-right { display: none; }
       .hero-left { padding: 120px 30px 80px; }
@@ -211,7 +228,24 @@
       <span class="lang-divider">|</span>
       <button class="lang-btn" onclick="setLang('ar')">ع</button>
     </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#services" data-i18n="nav_services" onclick="closeMenu()">Services</a>
+    <a href="#pricing" data-i18n="nav_pricing" onclick="closeMenu()">Pricing</a>
+    <a href="#about" data-i18n="nav_about" onclick="closeMenu()">About</a>
+    <a href="#contact" data-i18n="nav_contact" onclick="closeMenu()">Contact</a>
+    <button class="mobile-btn mobile-guide-btn" data-i18n="nav_guide" onclick="closeMenu(); openGuide();">City Guide</button>
+    <div class="mobile-lang">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('ar')">ع</button>
+    </div>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -227,7 +261,7 @@
         <em data-i18n="hero_line2">Short-Term</em><br/>
         <span data-i18n="hero_line3">Rental</span>
       </h1>
-      <p class="hero-body" data-i18n="hero_body">Atlas Host Co are official Airbnb co-hosts based in Marrakech. We handle everything — from listing creation to guest communication — for just 20% of your booking income. Your property, expertly managed.</p>
+      <p class="hero-body" data-i18n="hero_body">Atlas Host Co is a full-service Airbnb co-hosting company based in Marrakech. We handle everything — listings, guests, pricing, cleaning — for a flat 20% commission. No hidden fees, no hassle. Just your property, performing at its best.</p>
       <div class="hero-cta-row">
         <a href="#contact" class="btn-primary" data-i18n="hero_cta1">Get in Touch</a>
         <a href="#services" class="btn-ghost" data-i18n="hero_cta2">Our Services</a>
@@ -353,7 +387,7 @@
     <div class="about-content">
       <p class="about-label" data-i18n="about_label">Our Story</p>
       <h2 class="about-title" data-i18n="about_title">Two founders. One city. One mission.</h2>
-      <p class="about-body" data-i18n="about_body">Atlas Host Co was co-founded by Hajar Rahmouni and Caleb Ford — combining deep local knowledge of Marrakech with international hosting experience. As official Airbnb co-hosts, we bring Superhost status, genuine care, and proven systems to every property we manage. We don't just manage listings — we protect your investment and grow it.</p>
+      <p class="about-body" data-i18n="about_body">Hajar is from Marrakech — born here, raised here, knows every neighbourhood, every local, every shortcut. Caleb is from Perth, Australia — came for a trip, stayed for good. We started Atlas Host Co because we kept seeing great properties managed badly, and thought we could do it properly. We're young, we move fast, and we're genuinely invested in making your property perform.</p>
       <div class="founders-row">
         <div class="founder">
           <div class="founder-name">Hajar Rahmouni</div>
@@ -432,7 +466,7 @@ const T = {
     nav_services:'Services', nav_pricing:'Pricing', nav_about:'About', nav_contact:'Contact', nav_guide:'City Guide',
     tab_guide:'Venue Guide',
     hero_eyebrow:'Marrakech, Morocco', hero_line1:'Elevate Your', hero_line2:'Short-Term', hero_line3:'Rental',
-    hero_body:'Atlas Host Co are official Airbnb co-hosts based in Marrakech. We handle everything — from listing creation to guest communication — for just 20% of your booking income. Your property, expertly managed.',
+    hero_body:'Atlas Host Co is a full-service Airbnb co-hosting company based in Marrakech. We handle everything — listings, guests, pricing, cleaning — for a flat 20% commission. No hidden fees, no hassle. Just your property, performing at its best.',
     hero_cta1:'Get in Touch', hero_cta2:'Our Services',
     stat_properties:'Properties Managed', stat_occupancy:'Occupancy Rate', stat_rating_label:'AVERAGE RATING',
     ticker:['Property Management','Guest Communication','Dynamic Pricing','Cleaning & Maintenance','Listing Optimisation','Owner Reporting'],
@@ -451,8 +485,8 @@ const T = {
     p3_tag:'All Hosts', p3_name:'Full Management', p3_desc:'Our all-in co-hosting service. We manage everything end-to-end. You receive your income, minus our 20% commission. Cleaning fee paid separately by guests.',
     p3_li1:'Guest communication', p3_li2:'Check-in coordination', p3_li3:'Cleaning & maintenance', p3_li4:'Dynamic pricing', p3_li5:'Monthly reporting', p3_cta:'Start Earning',
     pricing_note:'★ We are official Airbnb co-hosts. We require a minimum listing rating of 4.8★ to take on existing listings. Not quite there yet? We can help you get there first.',
-    about_label:'Our Story', about_title:'Two founders. One city. One mission.',
-    about_body:"Atlas Host Co was co-founded by Hajar Rahmouni and Caleb Ford — combining deep local knowledge of Marrakech with international hosting experience. As official Airbnb co-hosts, we bring Superhost status, genuine care, and proven systems to every property we manage. We don't just manage listings — we protect your investment and grow it.",
+    about_label:'Our Story', about_title:'A local and an expat who figured it out together.',
+    about_body:"Hajar is from Marrakech — born here, raised here, knows every neighbourhood, every local, every shortcut. Caleb is from Perth, Australia — came for a trip, stayed for good. We started Atlas Host Co because we kept seeing great properties managed badly, and thought we could do it properly. We\'re young, we move fast, and we\'re genuinely invested in making your property perform.",
     founder1_title:'Co-Founder — Marrakech, Morocco', founder2_title:'Co-Founder — Perth, Australia', about_cta:'Work With Us',
     contact_title:"Let's talk about your property", contact_body:"Whether you have a riad in the medina or a villa in the Palmeraie, we'd love to learn about your property. Book a free consultation and we'll walk you through everything.",
     ci_email_label:'Email', ci_hajar_label:'Hajar — Morocco', ci_caleb_label:'Caleb — Australia', ci_based_label:'Based in', ci_based_val:'Marrakech-Safi, Morocco',
@@ -466,7 +500,7 @@ const T = {
     nav_services:'Services', nav_pricing:'Tarifs', nav_about:'À Propos', nav_contact:'Contact', nav_guide:'Guide de la Ville',
     tab_guide:'Guide des Adresses',
     hero_eyebrow:'Marrakech, Maroc', hero_line1:'Valorisez Votre', hero_line2:'Location', hero_line3:'Courte Durée',
-    hero_body:"Atlas Host Co est un co-hôte officiel Airbnb basé à Marrakech. Nous gérons tout — de la création d'annonce à la communication avec les voyageurs — pour seulement 20 % de vos revenus. Votre bien, entre de bonnes mains.",
+    hero_body:"Atlas Host Co est une agence de co-hébergement Airbnb à service complet basée à Marrakech. On gère tout — annonces, voyageurs, tarifs, nettoyage — pour une commission fixe de 20 %. Pas de frais cachés, pas de tracas. Juste votre bien, qui performe à son meilleur.",
     hero_cta1:'Nous Contacter', hero_cta2:'Nos Services',
     stat_properties:'Biens Gérés', stat_occupancy:"Taux d'Occupation", stat_rating_label:'NOTE MOYENNE',
     ticker:['Gestion Immobilière','Communication Voyageurs','Tarification Dynamique','Nettoyage & Entretien','Optimisation Annonce','Rapports Propriétaire'],
@@ -485,8 +519,8 @@ const T = {
     p3_tag:'Tous les Hôtes', p3_name:'Gestion Complète', p3_desc:'Notre service de co-hébergement tout-en-un. Nous gérons tout de A à Z. Vous percevez vos revenus moins notre commission de 20 %. Frais de ménage payés par les voyageurs.',
     p3_li1:'Communication voyageurs', p3_li2:'Coordination check-in', p3_li3:'Nettoyage & entretien', p3_li4:'Tarification dynamique', p3_li5:'Rapports mensuels', p3_cta:'Commencer à Gagner',
     pricing_note:'★ Nous sommes co-hôtes officiels Airbnb. Nous exigeons une note minimale de 4,8★ pour les annonces existantes. Pas encore là ? Nous pouvons vous aider à y parvenir.',
-    about_label:'Notre Histoire', about_title:'Deux fondateurs. Une ville. Une mission.',
-    about_body:"Atlas Host Co a été cofondée par Hajar Rahmouni et Caleb Ford — alliant une connaissance approfondie de Marrakech à une expérience internationale de l'hébergement. En tant que co-hôtes officiels Airbnb, nous apportons le statut de Superhost, un vrai sens du service et des systèmes éprouvés à chaque bien géré.",
+    about_label:'Notre Histoire', about_title:'Une locale et un expatrié qui ont trouvé la formule ensemble.',
+    about_body:"Hajar est de Marrakech — née ici, élevée ici, elle connaît chaque quartier, chaque habitant, chaque raccourci. Caleb vient de Perth, en Australie — il est arrivé pour un voyage et il est resté. On a créé Atlas Host Co parce qu'on voyait de bons biens mal gérés, et on s'est dit qu'on pouvait faire ça correctement. On est jeunes, on bouge vite, et on est vraiment investis dans la performance de votre bien.",
     founder1_title:'Co-Fondatrice — Marrakech, Maroc', founder2_title:'Co-Fondateur — Perth, Australie', about_cta:'Travailler Avec Nous',
     contact_title:'Parlons de votre bien', contact_body:"Que vous ayez un riad dans la médina ou une villa à la Palmeraie, nous serions ravis d'en savoir plus sur votre bien. Réservez une consultation gratuite.",
     ci_email_label:'Email', ci_hajar_label:'Hajar — Maroc', ci_caleb_label:'Caleb — Australie', ci_based_label:'Basé à', ci_based_val:'Marrakech-Safi, Maroc',
@@ -500,7 +534,7 @@ const T = {
     nav_services:'الخدمات', nav_pricing:'الأسعار', nav_about:'من نحن', nav_contact:'اتصل بنا', nav_guide:'دليل المدينة',
     tab_guide:'دليل الأماكن',
     hero_eyebrow:'مراكش، المغرب', hero_line1:'ارتقِ بـ', hero_line2:'إيجارك', hero_line3:'قصير الأمد',
-    hero_body:'أطلس هوست كو شريك مضيف رسمي على Airbnb مقره مراكش. نتولى كل شيء — من إنشاء الإعلان إلى التواصل مع الضيوف — مقابل 20٪ فقط من دخلك. عقارك في أيدٍ أمينة.',
+    hero_body:'أطلس هوست كو شركة استضافة مشتركة متكاملة على Airbnb مقرها مراكش. نتولى كل شيء — الإعلانات، الضيوف، التسعير، التنظيف — مقابل عمولة ثابتة 20٪. لا رسوم خفية، لا متاعب. فقط عقارك يؤدي أفضل ما لديه.',
     hero_cta1:'تواصل معنا', hero_cta2:'خدماتنا',
     stat_properties:'عقار مُدار', stat_occupancy:'معدل الإشغال', stat_rating_label:'متوسط التقييم',
     ticker:['إدارة العقارات','التواصل مع الضيوف','التسعير الديناميكي','التنظيف والصيانة','تحسين الإعلان','تقارير المالك'],
@@ -519,8 +553,8 @@ const T = {
     p3_tag:'جميع المضيفين', p3_name:'الإدارة الكاملة', p3_desc:'خدمة الاستضافة المشتركة الشاملة. ندير كل شيء من البداية إلى النهاية. تستلم دخلك مطروحاً منه عمولتنا 20٪. رسوم التنظيف يدفعها الضيوف.',
     p3_li1:'التواصل مع الضيوف', p3_li2:'تنسيق تسجيل الدخول', p3_li3:'التنظيف والصيانة', p3_li4:'التسعير الديناميكي', p3_li5:'التقارير الشهرية', p3_cta:'ابدأ في الكسب',
     pricing_note:'★ نحن شركاء مضيفون رسميون على Airbnb. نشترط حداً أدنى للتقييم 4.8★ للإعلانات الحالية. لم تصل بعد؟ يمكننا مساعدتك على تحقيق ذلك أولاً.',
-    about_label:'قصتنا', about_title:'مؤسسان. مدينة واحدة. مهمة واحدة.',
-    about_body:'تأسست أطلس هوست كو على يد هاجر رحموني وكالب فورد — بجمع الخبرة المحلية العميقة بمراكش والتجربة الدولية في الإيجار. بوصفنا شركاء مضيفين رسميين على Airbnb، نحرص على تقديم أعلى مستويات الخدمة وحماية استثمارك وتنميته.',
+    about_label:'قصتنا', about_title:'محلية ومغترب اكتشفا معًا الطريقة الصحيحة.',
+    about_body:'هاجر من مراكش — وُلدت هنا، ترعرعت هنا، تعرف كل حي وكل شخص وكل طريق مختصر. كالب من بيرث في أستراليا — جاء في رحلة وبقي للأبد. أسسنا أطلس هوست كو لأننا رأينا عقارات رائعة تُدار بشكل سيئ، وقررنا أننا نستطيع أن نفعلها بشكل صحيح. نحن شباب، نتحرك بسرعة، وننخرط بجدية في تحقيق أفضل أداء لعقارك.',
     founder1_title:'المؤسسة المشاركة — مراكش، المغرب', founder2_title:'المؤسس المشارك — بيرث، أستراليا', about_cta:'اعمل معنا',
     contact_title:'تحدث إلينا عن عقارك', contact_body:'سواء كان لديك رياض في المدينة العتيقة أو فيلا في البالمراي، يسعدنا التعرف على عقارك. احجز استشارة مجانية وسنرشدك خطوة بخطوة.',
     ci_email_label:'البريد الإلكتروني', ci_hajar_label:'هاجر — المغرب', ci_caleb_label:'كالب — أستراليا', ci_based_label:'مقرنا', ci_based_val:'مراكش-سافي، المغرب',
@@ -560,11 +594,40 @@ function setLang(lang) {
     document.documentElement.setAttribute('lang', lang);
   }
   document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+  document.querySelectorAll(`.lang-btn[onclick="setLang('${lang}')"]`).forEach(b => b.classList.add('active'));
+}
+
+// ── Mobile Menu ──
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const burger = document.getElementById('hamburger');
+  const isOpen = menu.classList.contains('open');
+  if (isOpen) {
+    menu.classList.remove('open');
+    burger.classList.remove('open');
+    document.body.style.overflow = '';
+    menu.style.display = 'none';
+  } else {
+    menu.style.display = 'flex';
+    requestAnimationFrame(() => {
+      menu.classList.add('open');
+      burger.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+}
+function closeMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const burger = document.getElementById('hamburger');
+  menu.classList.remove('open');
+  burger.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => { menu.style.display = 'none'; }, 250);
 }
 
 // ── City Guide Panel ──
 function openGuide() {
+  if (document.getElementById('mobileMenu').classList.contains('open')) closeMenu();
   document.getElementById('guideOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
