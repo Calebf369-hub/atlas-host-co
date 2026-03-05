@@ -164,6 +164,22 @@
     .footer-tagline { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; font-style: italic; color: var(--terra); }
 
     /* ─── ANIMATIONS ─── */
+    /* CITY GUIDE SECTION */
+    .cityguide { padding: 120px 80px; background: var(--burgundy); position: relative; overflow: hidden; text-align: center; }
+    .cityguide::before { content: ''; position: absolute; top: -120px; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; border: 1px solid rgba(201,92,62,0.15); border-radius: 50%; pointer-events: none; }
+    .cityguide::after { content: ''; position: absolute; top: -40px; left: 50%; transform: translateX(-50%); width: 400px; height: 400px; border: 1px solid rgba(201,92,62,0.1); border-radius: 50%; pointer-events: none; }
+    .cityguide-eyebrow { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--terra-light); margin-bottom: 24px; position: relative; z-index: 1; }
+    .cityguide-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 3.5vw, 3.4rem); font-weight: 300; color: var(--sand); line-height: 1.15; max-width: 760px; margin: 0 auto 32px; position: relative; z-index: 1; }
+    .cityguide-title em { font-style: italic; color: var(--terra-light); }
+    .cityguide-body { font-size: 0.95rem; line-height: 1.9; color: rgba(240,224,204,0.65); max-width: 640px; margin: 0 auto 56px; position: relative; z-index: 1; }
+    .cityguide-cta { display: inline-flex; align-items: center; gap: 12px; background: var(--terra); color: var(--sand); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 18px 40px; border: none; cursor: pointer; font-family: 'Jost', sans-serif; font-weight: 400; transition: background 0.25s; position: relative; z-index: 1; }
+    .cityguide-cta:hover { background: var(--terra-dark); }
+    .cityguide-stat-row { display: flex; justify-content: center; gap: 64px; margin-top: 72px; position: relative; z-index: 1; }
+    .cityguide-stat { text-align: center; }
+    .cityguide-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: var(--terra-light); line-height: 1; }
+    .cityguide-stat-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(240,224,204,0.45); margin-top: 8px; }
+    @media(max-width:768px) { .cityguide { padding: 80px 24px; } .cityguide-stat-row { gap: 32px; } }
+
     @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeRight { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
@@ -217,7 +233,7 @@
     <ul class="nav-links">
       <li><a href="#services" data-i18n="nav_services">Services</a></li>
       <li><a href="#pricing" data-i18n="nav_pricing">Pricing</a></li>
-      <li><a href="#about" data-i18n="nav_about">About</a></li>
+      <li><a href="#about" data-i18n="nav_about">About</a><a href="#cityguide" data-i18n="nav_guide">City Guide</a></li>
       <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
       <li><button class="guide-nav-btn" onclick="openGuide()" data-i18n="nav_guide">City Guide</button></li>
     </ul>
@@ -405,6 +421,19 @@
     </div>
   </section>
 
+  <!-- CITY GUIDE SECTION -->
+  <section class="cityguide" id="cityguide">
+    <p class="cityguide-eyebrow" data-i18n="cg_eyebrow">Marrakech City Guide</p>
+    <h2 class="cityguide-title" data-i18n="cg_title">The city, <em>as it should be seen</em></h2>
+    <p class="cityguide-body" data-i18n="cg_body">The most thoughtfully curated guide to Marrakech for lovers of architecture and exceptional food. A considered selection of the city's most aesthetically captivating spaces — places where design, culture, and cuisine intertwine. Experience the true beauty, rich heritage, and effortlessly laid-back spirit that make Marrakech so uniquely unforgettable.</p>
+    <button class="cityguide-cta" onclick="openGuide()" data-i18n="cg_cta">Explore the Guide →</button>
+    <div class="cityguide-stat-row">
+      <div class="cityguide-stat"><div class="cityguide-stat-num">24</div><div class="cityguide-stat-label" data-i18n="cg_stat1">Curated Venues</div></div>
+      <div class="cityguide-stat"><div class="cityguide-stat-num">6</div><div class="cityguide-stat-label" data-i18n="cg_stat2">Categories</div></div>
+      <div class="cityguide-stat"><div class="cityguide-stat-num">3</div><div class="cityguide-stat-label" data-i18n="cg_stat3">Languages</div></div>
+    </div>
+  </section>
+
   <!-- CONTACT -->
   <section class="contact" id="contact">
     <div class="contact-left">
@@ -494,7 +523,8 @@ const T = {
     form_email:'Email', form_email_ph:'you@example.com', form_proptype:'Property Type',
     form_select:'Select…', form_opt1:'Riad — Medina', form_opt2:'Villa — Palmeraie', form_opt3:'Apartment', form_opt4:'Other',
     form_message:'Message', form_msg_ph:'Tell us a little about your property…', form_submit:'Send Enquiry',
-    footer_copy:'© 2025 Atlas Host Co. All rights reserved.'
+    footer_copy:'© 2025 Atlas Host Co. All rights reserved.',
+    cg_eyebrow:'Marrakech City Guide', cg_title:'The city, as it should be seen', cg_body:"The most thoughtfully curated guide to Marrakech for lovers of architecture and exceptional food. A considered selection of the city's most aesthetically captivating spaces — places where design, culture, and cuisine intertwine. Experience the true beauty, rich heritage, and effortlessly laid-back spirit that make Marrakech so uniquely unforgettable.", cg_cta:'Explore the Guide →', cg_stat1:'Curated Venues', cg_stat2:'Categories', cg_stat3:'Languages'
   },
   fr: {
     nav_services:'Services', nav_pricing:'Tarifs', nav_about:'À Propos', nav_contact:'Contact', nav_guide:'Guide de la Ville',
@@ -528,7 +558,8 @@ const T = {
     form_email:'Email', form_email_ph:'vous@exemple.com', form_proptype:'Type de Bien',
     form_select:'Choisir…', form_opt1:'Riad — Médina', form_opt2:'Villa — Palmeraie', form_opt3:'Appartement', form_opt4:'Autre',
     form_message:'Message', form_msg_ph:'Parlez-nous un peu de votre bien…', form_submit:'Envoyer',
-    footer_copy:'© 2025 Atlas Host Co. Tous droits réservés.'
+    footer_copy:'© 2025 Atlas Host Co. Tous droits réservés.',
+    cg_eyebrow:'Guide de la Ville — Marrakech', cg_title:"La ville, telle qu'elle mérite d'être découverte", cg_body:"Le guide le plus soigneusement élaboré de Marrakech pour les amoureux d'architecture et de gastronomie d'exception. Une sélection réfléchie des espaces les plus esthétiquement captivants de la ville — des lieux où design, culture et cuisine se mêlent intimement. Vivez la vraie beauté, le riche patrimoine et l'esprit naturellement décontracté qui rendent Marrakech si inoubliable.", cg_cta:'Explorer le Guide →', cg_stat1:'Adresses Sélectionnées', cg_stat2:'Catégories', cg_stat3:'Langues'
   },
   ar: {
     nav_services:'الخدمات', nav_pricing:'الأسعار', nav_about:'من نحن', nav_contact:'اتصل بنا', nav_guide:'دليل المدينة',
@@ -562,7 +593,8 @@ const T = {
     form_email:'البريد الإلكتروني', form_email_ph:'you@example.com', form_proptype:'نوع العقار',
     form_select:'اختر…', form_opt1:'رياض — المدينة العتيقة', form_opt2:'فيلا — البالمراي', form_opt3:'شقة', form_opt4:'أخرى',
     form_message:'رسالة', form_msg_ph:'أخبرنا قليلاً عن عقارك…', form_submit:'إرسال الاستفسار',
-    footer_copy:'© 2025 أطلس هوست كو. جميع الحقوق محفوظة.'
+    footer_copy:'© 2025 أطلس هوست كو. جميع الحقوق محفوظة.',
+    cg_eyebrow:'دليل مدينة مراكش', cg_title:'المدينة، كما ينبغي أن تُرى', cg_body:'الدليل الأكثر تأنياً في اختياراته لمراكش، لعشّاق العمارة والطعام الاستثنائي. تشكيلة مدروسة من أكثر الفضاءات جمالاً وسحراً في المدينة — أماكن يلتقي فيها التصميم والثقافة والمطبخ في تناغم تام. اكتشف الجمال الحقيقي والتراث الغني والروح المنفتحة العفوية التي تجعل مراكش فريدة ولا تُنسى.', cg_cta:'استكشف الدليل →', cg_stat1:'أماكن مختارة', cg_stat2:'تصنيفات', cg_stat3:'لغات'
   }
 };
 
