@@ -82,8 +82,7 @@
     .stat-card { position: absolute; background: var(--warm-white); padding: 16px 24px; box-shadow: 0 8px 40px rgba(74,28,36,0.1); }
     .stat-card-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 400; color: var(--terra); line-height: 1; }
     .stat-card-label { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
-    .stat-card--left { left: -60px; top: 40%; animation: fadeRight 0.9s 1s forwards; opacity: 0; }
-    .stat-card--bottom { right: -20px; bottom: 8%; animation: fadeLeft 0.9s 1.1s forwards; opacity: 0; }
+
 
     /* ─── TICKER ─── */
     .ticker { background: var(--burgundy); color: var(--sand); padding: 14px 0; overflow: hidden; white-space: nowrap; }
@@ -291,18 +290,9 @@
           <path d="M76,440 L76,220 Q76,104 170,104 Q264,104 264,220 L264,440 Z" fill="none" stroke="#c95c3e" stroke-width="2"/>
           <path d="M104,440 L104,230 Q104,146 170,146 Q236,146 236,230 L236,440 Z" fill="#c95c3e" opacity="0.15"/>
           <path d="M136,440 L136,310 Q136,248 170,248 Q204,248 204,310 L204,440 Z" fill="#a8402a" opacity="0.5"/>
-          <rect x="60" y="360" width="220" height="60" fill="#faf5ee" opacity="0.9"/>
-          <text x="170" y="382" text-anchor="middle" font-family="Jost, sans-serif" font-size="10" letter-spacing="2" fill="#8a6a58" data-i18n="stat_rating_label">AVERAGE RATING</text>
-          <text x="170" y="408" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="28" fill="#4a1c24">4.97 ★</text>
+
         </svg>
-        <div class="stat-card stat-card--left">
-          <div class="stat-card-num">50+</div>
-          <div class="stat-card-label" data-i18n="stat_properties">Properties Managed</div>
-        </div>
-        <div class="stat-card stat-card--bottom">
-          <div class="stat-card-num">96%</div>
-          <div class="stat-card-label" data-i18n="stat_occupancy">Occupancy Rate</div>
-        </div>
+
       </div>
     </div>
   </section>
