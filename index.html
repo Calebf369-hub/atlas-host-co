@@ -260,14 +260,13 @@
     <ul class="nav-links">
       <li><a href="#services" data-i18n="nav_services">Services</a></li>
       <li><a href="#pricing" data-i18n="nav_pricing">Pricing</a></li>
-      <li><a href="#about" data-i18n="nav_about">About</a><a href="#cityguide" data-i18n="nav_guide">City Guide</a></li>
+      <li><a href="#about" data-i18n="nav_about">About</a></li>
       <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
-      <li><button class="guide-nav-btn" onclick="openGuide()" data-i18n="nav_guide">City Guide</button></li>
     </ul>
     <div class="lang-selector">
-      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn active" onclick="setLang('fr')">FR</button>
       <span class="lang-divider">|</span>
-      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
       <span class="lang-divider">|</span>
       <button class="lang-btn" onclick="setLang('ar')">ع</button>
     </div>
@@ -284,8 +283,8 @@
     <a href="#contact" data-i18n="nav_contact" onclick="closeMenu()">Contact</a>
     <button class="mobile-btn mobile-guide-btn" data-i18n="nav_guide" onclick="closeMenu(); openGuide();">City Guide</button>
     <div class="mobile-lang">
-      <button class="lang-btn active" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
       <button class="lang-btn" onclick="setLang('ar')">ع</button>
     </div>
   </div>
@@ -712,6 +711,9 @@ function closeGuide() {
   document.body.style.overflow = '';
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeGuide(); });
+
+// ── Default language: French ──
+document.addEventListener('DOMContentLoaded', () => setLang('fr'));
 </script>
 </body>
 </html>
