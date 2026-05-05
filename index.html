@@ -458,22 +458,22 @@
       <h2 class="contact-title" data-i18n="contact_title">Let's talk about your property</h2>
       <p class="contact-body" data-i18n="contact_body">Whether you have a riad in the medina or a villa in the Palmeraie, we'd love to learn about your property. Book a free consultation and we'll walk you through everything.</p>
       <div class="contact-info">
-        <div class="contact-info-item"><strong data-i18n="ci_email_label">Email</strong><a href="/cdn-cgi/l/email-protection#5b32353d341b3a2f373a283334282f383475383436" style="color:inherit;"><span class="__cf_email__" data-cfemail="41282f272e0120352d2032292e3235222e6f222e2c">[email&#160;protected]</span></a></div>
+        <div class="contact-info-item"><strong data-i18n="ci_email_label">Email</strong><a href="mailto:info@atlashost.co" style="color:inherit;">info@atlashost.co</a></div>
         <div class="contact-info-item"><strong data-i18n="ci_hajar_label">Hajar — Morocco</strong><a href="https://wa.me/212674739734" target="_blank" rel="noopener" class="whatsapp-link">+212 674 739 734 <span class="wa-badge">WhatsApp ↗</span></a></div>
         <div class="contact-info-item"><strong data-i18n="ci_caleb_label">Caleb — Australia</strong><a href="https://wa.me/61430297755" target="_blank" rel="noopener" class="whatsapp-link">+61 430 297 755 <span class="wa-badge">WhatsApp ↗</span></a></div>
         <div class="contact-info-item"><strong data-i18n="ci_based_label">Based in</strong><span data-i18n="ci_based_val">Marrakech-Safi, Morocco</span></div>
       </div>
     </div>
     <div class="contact-right">
-      <form class="contact-form" onsubmit="return false;">
+      <form class="contact-form" id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
         <div class="form-row">
-          <div class="form-group"><label data-i18n="form_fname">First Name</label><input type="text" data-i18n-placeholder="form_fname_ph" placeholder="Youssef"/></div>
-          <div class="form-group"><label data-i18n="form_lname">Last Name</label><input type="text" data-i18n-placeholder="form_lname_ph" placeholder="El Fassi"/></div>
+          <div class="form-group"><label data-i18n="form_fname">First Name</label><input type="text" name="first_name" data-i18n-placeholder="form_fname_ph" placeholder="Youssef"/></div>
+          <div class="form-group"><label data-i18n="form_lname">Last Name</label><input type="text" name="last_name" data-i18n-placeholder="form_lname_ph" placeholder="El Fassi"/></div>
         </div>
-        <div class="form-group"><label data-i18n="form_email">Email</label><input type="email" data-i18n-placeholder="form_email_ph" placeholder="you@example.com"/></div>
+        <div class="form-group"><label data-i18n="form_email">Email</label><input type="email" name="email" data-i18n-placeholder="form_email_ph" placeholder="you@example.com"/></div>
         <div class="form-group">
           <label data-i18n="form_proptype">Property Type</label>
-          <select>
+          <select name="property_type">
             <option value="" data-i18n="form_select">Select…</option>
             <option data-i18n="form_opt1">Riad — Medina</option>
             <option data-i18n="form_opt2">Villa — Palmeraie</option>
@@ -481,7 +481,7 @@
             <option data-i18n="form_opt4">Other</option>
           </select>
         </div>
-        <div class="form-group"><label data-i18n="form_message">Message</label><textarea data-i18n-placeholder="form_msg_ph" placeholder="Tell us a little about your property…"></textarea></div>
+        <div class="form-group"><label data-i18n="form_message">Message</label><textarea name="message" data-i18n-placeholder="form_msg_ph" placeholder="Tell us a little about your property…"></textarea></div>
         <button type="submit" class="btn-primary form-submit" data-i18n="form_submit">Send Enquiry</button>
       </form>
     </div>
@@ -712,6 +712,41 @@ function closeGuide() {
   document.body.style.overflow = '';
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeGuide(); });
+
+
+// ── Contact Form (Formspree) ──
+const contactForm = document.getElementById('contact-form');
+const formStatus = document.getElementById('form-status');
+if (contactForm) {
+  contactForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = contactForm.querySelector('button[type="submit"]');
+    const originalText = btn.textContent;
+    btn.textContent = '...';
+    btn.disabled = true;
+    try {
+      const res = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        formStatus.style.display = 'block';
+        formStatus.style.color = 'var(--terra)';
+        formStatus.textContent = 'Message sent — we'll be in touch shortly.';
+        contactForm.reset();
+      } else {
+        throw new Error('Failed');
+      }
+    } catch {
+      formStatus.style.display = 'block';
+      formStatus.style.color = '#c00';
+      formStatus.textContent = 'Something went wrong. Please email us directly at info@atlashost.co';
+    }
+    btn.textContent = originalText;
+    btn.disabled = false;
+  });
+}
 
 // ── Default language: French ──
 document.addEventListener('DOMContentLoaded', () => setLang('fr'));
