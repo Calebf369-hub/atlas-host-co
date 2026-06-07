@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#F0DDD0"/>
+
+  <!-- Left terra accent bar -->
+  <rect width="8" height="630" fill="#C75A38"/>
+
+  <!-- Subtle background arch outline -->
+  <path d="M 480,700 L 480,200 Q 480,20 700,20 Q 920,20 920,200 L 920,700 Z"
+        stroke="#4A1C24" stroke-width="3" fill="none" opacity="0.08"/>
+  <path d="M 520,700 L 520,220 Q 520,80 700,80 Q 880,80 880,220 L 880,700 Z"
+        stroke="#4A1C24" stroke-width="2" fill="none" opacity="0.06"/>
+
+  <!-- ═══ LEFT: Text heading ═══ -->
+  <text x="60" y="220" font-family="Georgia, serif" font-size="90" font-weight="400"
+        fill="#4A1C24" letter-spacing="8">ATLAS</text>
+  <text x="60" y="292" font-family="Georgia, serif" font-size="38" font-weight="400"
+        fill="#4A1C24" letter-spacing="14">HOST CO</text>
+
+  <!-- Terra divider -->
+  <rect x="60" y="322" width="80" height="3" fill="#C75A38"/>
+
+  <!-- Tagline -->
+  <text x="60" y="378" font-family="Georgia, serif" font-size="27" font-style="italic"
+        fill="#4A1C24" opacity="0.85">Airbnb Co-Hosting &amp; Property Management</text>
+  <text x="60" y="418" font-family="Georgia, serif" font-size="27" font-style="italic"
+        fill="#4A1C24" opacity="0.85">Marrakech, Morocco</text>
+
+  <!-- ═══ RIGHT: Decorative arch from website hero ═══ -->
+  <g transform="translate(700, 15) scale(1.35)">
+    <path d="M20,440 L20,200 Q20,20 170,20 Q320,20 320,200 L320,440 Z" fill="#e8d0b5"/>
+    <path d="M48,440 L48,210 Q48,62 170,62 Q292,62 292,210 L292,440 Z"
+          fill="none" stroke="#C75A38" stroke-width="2.5"/>
+    <path d="M76,440 L76,220 Q76,104 170,104 Q264,104 264,220 L264,440 Z"
+          fill="none" stroke="#C75A38" stroke-width="2"/>
+    <path d="M104,440 L104,230 Q104,146 170,146 Q236,146 236,230 L236,440 Z"
+          fill="#C75A38" opacity="0.15"/>
+    <path d="M136,440 L136,310 Q136,248 170,248 Q204,248 204,310 L204,440 Z"
+          fill="#a8402a" opacity="0.5"/>
+  </g>
+
+  <!-- Bottom info bar -->
+  <rect x="0" y="565" width="1200" height="65" fill="#4A1C24" opacity="0.07"/>
+  <text x="60" y="606" font-family="Georgia, serif" font-size="21"
+        fill="#C75A38" letter-spacing="2">atlashost.co</text>
+  <text x="248" y="606" font-family="Georgia, serif" font-size="21"
+        fill="#4A1C24" opacity="0.45">·</text>
+  <text x="270" y="606" font-family="Georgia, serif" font-size="21"
+        fill="#4A1C24" opacity="0.7">info@atlashost.co</text>
+  <text x="590" y="606" font-family="Georgia, serif" font-size="21"
+        fill="#4A1C24" opacity="0.45">·</text>
+  <text x="612" y="606" font-family="Georgia, serif" font-size="21"
+        fill="#4A1C24" opacity="0.7">Airbnb Management · Marrakech · 20%</text>
+
+</svg>
