@@ -35,17 +35,15 @@
     .guide-nav-btn:hover { opacity: 1; border-color: var(--terra); color: var(--terra); }
 
     /* ─── CITY GUIDE OVERLAY ─── */
-    .guide-overlay { position: fixed; inset: 0; z-index: 500; display: flex; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.35s ease; background: var(--warm-white); }
-    .guide-overlay.open { opacity: 1; pointer-events: all; }
+    .guide-overlay { position: fixed; inset: 0; z-index: 500; display: none; flex-direction: column; }
+    .guide-overlay.open { display: flex; }
     .guide-panel-header { background: var(--burgundy); padding: 0 60px; display: flex; align-items: stretch; justify-content: space-between; flex-shrink: 0; box-shadow: 0 4px 24px rgba(74,28,36,0.3); }
     .guide-panel-title { font-family: 'Cormorant Garamond', serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terra-light); display: flex; align-items: center; }
 
     .guide-close { background: none; border: none; cursor: pointer; color: rgba(240,224,204,0.45); font-size: 1.3rem; padding: 0 0 0 28px; display: flex; align-items: center; transition: color 0.2s; }
     .guide-close:hover { color: var(--sand); }
     .guide-panel-body { flex: 1; overflow: hidden; position: relative; background: var(--warm-white); }
-    .guide-pane { position: absolute; inset: 0; display: none; }
-    .guide-pane.active { display: block; }
-    
+    .guide-pane { position: absolute; inset: 0; }
     .guide-pane iframe { width: 100%; height: 100%; border: none; display: block; }
 
     /* ─── RTL ─── */
@@ -704,13 +702,8 @@ function closeMenu() {
 
 // ── City Guide Panel ──
 function openGuide() {
-  const menu = document.getElementById('mobileMenu');
-  if (menu && menu.classList.contains('open')) closeMenu();
-  const overlay = document.getElementById('guideOverlay');
-  if (overlay) {
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
+  document.getElementById('guideOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 function closeGuide() {
   document.getElementById('guideOverlay').classList.remove('open');
@@ -754,13 +747,7 @@ if (contactForm) {
 }
 
 // ── Default language: French ──
-document.addEventListener('DOMContentLoaded', () => {
-  setLang('fr');
-  // Belt-and-braces: wire up guide button via addEventListener too
-  document.querySelectorAll('.guide-nav-btn, .cityguide-cta, .mobile-guide-btn').forEach(btn => {
-    btn.addEventListener('click', openGuide);
-  });
-});
+document.addEventListener('DOMContentLoaded', () => setLang('fr'));
 </script>
 </body>
 </html>
