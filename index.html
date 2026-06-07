@@ -703,9 +703,13 @@ function closeMenu() {
 
 // ── City Guide Panel ──
 function openGuide() {
-  if (document.getElementById('mobileMenu').classList.contains('open')) closeMenu();
-  document.getElementById('guideOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  const menu = document.getElementById('mobileMenu');
+  if (menu && menu.classList.contains('open')) closeMenu();
+  const overlay = document.getElementById('guideOverlay');
+  if (overlay) {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
 }
 function closeGuide() {
   document.getElementById('guideOverlay').classList.remove('open');
