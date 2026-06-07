@@ -43,7 +43,8 @@
     .guide-close { background: none; border: none; cursor: pointer; color: rgba(240,224,204,0.45); font-size: 1.3rem; padding: 0 0 0 28px; display: flex; align-items: center; transition: color 0.2s; }
     .guide-close:hover { color: var(--sand); }
     .guide-panel-body { flex: 1; overflow: hidden; position: relative; background: var(--warm-white); }
-    .guide-pane { position: absolute; inset: 0; }
+    .guide-pane { position: absolute; inset: 0; display: none; }
+    .guide-pane.active { display: block; }
     
     .guide-pane iframe { width: 100%; height: 100%; border: none; display: block; }
 
