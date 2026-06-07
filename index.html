@@ -731,7 +731,7 @@ if (contactForm) {
       if (res.ok) {
         formStatus.style.display = 'block';
         formStatus.style.color = 'var(--terra)';
-        formStatus.textContent = 'Message sent — we'll be in touch shortly.';
+        formStatus.textContent = "Message sent — we'll be in touch shortly.";
         contactForm.reset();
       } else {
         throw new Error('Failed');
