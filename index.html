@@ -534,7 +534,7 @@
     <div class="footer-copy" data-i18n="footer_copy">© 2025 Atlas Host Co. All rights reserved.</div>
   </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 const T = {
   en: {
     nav_services:'Services', nav_pricing:'Pricing', nav_about:'About', nav_contact:'Contact', nav_guide:'City Guide',
@@ -754,7 +754,13 @@ if (contactForm) {
 }
 
 // ── Default language: French ──
-document.addEventListener('DOMContentLoaded', () => setLang('fr'));
+document.addEventListener('DOMContentLoaded', () => {
+  setLang('fr');
+  // Belt-and-braces: wire up guide button via addEventListener too
+  document.querySelectorAll('.guide-nav-btn, .cityguide-cta, .mobile-guide-btn').forEach(btn => {
+    btn.addEventListener('click', openGuide);
+  });
+});
 </script>
 </body>
 </html>
