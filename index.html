@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Atlas Host Co — Marrakech</title>
-  <meta name="description" content="Atlas Host Co — Professional Airbnb co-hosting and property management in Marrakech. Full-service guest management, dynamic pricing, and local expertise. 20% commission, everything included."/>
-  <meta name="keywords" content="Airbnb management Marrakech, co-hosting Marrakech, property management Marrakech, riad rental management, Airbnb co-host Marrakech"/>
+  <meta name="description" content="Atlas Host Co — Professional Airbnb co-hosting and property management in Marrakech for riads, apartments and villas. Guest management, dynamic pricing and local expertise for a flat 20% commission. Free property assessment."/>
+  <meta name="keywords" content="Airbnb management Marrakech, co-hosting Marrakech, property management Marrakech, riad rental management, apartment rental management Marrakech, villa management Marrakech, Airbnb co-host Marrakech"/>
   <link rel="canonical" href="https://atlashost.co"/>
 
   <!-- Open Graph — social sharing -->
@@ -195,6 +195,18 @@
     .pricing-card--management .pricing-list li::before { color: var(--terra-light); }
     .pricing-card--management .btn-primary { background: var(--terra); align-self: flex-start; }
     .pricing-note { font-size: 0.8rem; color: var(--text-muted); text-align: center; font-style: italic; }
+    .pricing-lead { font-size: 0.95rem; line-height: 1.9; color: var(--burgundy); max-width: 720px; margin: 0 auto 48px; text-align: center; }
+    .pricing-breakdown { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 40px; }
+    .breakdown-col { background: var(--sand-light); padding: 40px 36px; }
+    .breakdown-head { font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terra); margin-bottom: 22px; }
+    .breakdown-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .breakdown-list li { font-size: 0.82rem; line-height: 1.7; color: var(--text-muted); padding-left: 16px; position: relative; }
+    .breakdown-list li::before { content: '—'; position: absolute; left: 0; color: var(--terra); font-size: 0.7rem; }
+    .assess-head { font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terra); margin-bottom: 18px; }
+    .assess-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 48px; }
+    .assess-list li { font-size: 0.85rem; line-height: 1.7; color: var(--text-muted); padding-left: 18px; position: relative; }
+    .assess-list li::before { content: '—'; position: absolute; left: 0; color: var(--terra); font-size: 0.7rem; }
+    .contact .contact-body { margin-bottom: 32px; }
 
     /* ─── ABOUT ─── */
     .about { background: var(--sand); padding: 120px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
@@ -284,6 +296,8 @@
       .services-grid { grid-template-columns: 1fr; }
       .pricing { padding: 80px 30px; }
       .pricing-grid { grid-template-columns: 1fr; }
+      .pricing-breakdown { grid-template-columns: 1fr; }
+      .breakdown-col { padding: 32px 28px; }
       .founders-row { flex-direction: column; gap: 20px; }
       .founder-divider { width: 60px; height: 1px; }
       .about { grid-template-columns: 1fr; padding: 80px 30px; }
@@ -349,7 +363,7 @@
       </h1>
       <p class="hero-body" data-i18n="hero_body">Atlas Host Co is a full-service Airbnb co-hosting company based in Marrakech. We handle everything — listings, guests, pricing, cleaning — for a flat 20% commission. No hidden fees, no hassle. Just your property, performing at its best.</p>
       <div class="hero-cta-row">
-        <a href="#contact" class="btn-primary" data-i18n="hero_cta1">Get in Touch</a>
+        <a href="#contact" class="btn-primary" data-i18n="hero_cta1">Book a Free Assessment</a>
         <a href="#services" class="btn-ghost" data-i18n="hero_cta2">Our Services</a>
       </div>
     </div>
@@ -403,7 +417,7 @@
   <!-- PRICING -->
   <section class="pricing" id="pricing">
     <p class="section-label" data-i18n="pricing_label">Simple, Transparent Pricing</p>
-    <h2 class="section-title" data-i18n="pricing_title">One commission. Everything included.</h2>
+    <h2 class="section-title" data-i18n="pricing_title">One commission. Nothing hidden.</h2>
     <div class="pricing-grid">
       <div class="pricing-card pricing-card--free">
         <div class="pricing-tag" data-i18n="p1_tag">New Hosts</div>
@@ -446,7 +460,36 @@
         <a href="#contact" class="btn-primary" data-i18n="p3_cta">Start Earning</a>
       </div>
     </div>
-    <p class="pricing-note" data-i18n="pricing_note">★ We are official Airbnb co-hosts. We require a minimum listing rating of 4.8★ to take on existing listings. Not quite there yet? We can help you get there first.</p>
+    <p class="pricing-lead" data-i18n="pricing_lead">Our 20% applies to the rental income you receive from bookings — nothing else. Not the cleaning fee, not repairs, not photography. Here is exactly where every cost sits.</p>
+    <div class="pricing-breakdown">
+      <div class="breakdown-col">
+        <div class="breakdown-head" data-i18n="bd1_head">Covered by our 20%</div>
+        <ul class="breakdown-list">
+          <li data-i18n="bd1_li1">Building your listing, or rebuilding an existing one — copy, SEO, photography direction, pricing setup</li>
+          <li data-i18n="bd1_li2">Every guest message, enquiry, review and check-in, handled by us</li>
+          <li data-i18n="bd1_li3">Dynamic pricing and calendar management</li>
+          <li data-i18n="bd1_li4">Booking and supervising cleaners, tradespeople and inspections</li>
+          <li data-i18n="bd1_li5">Monthly revenue reporting and a clear invoice</li>
+        </ul>
+      </div>
+      <div class="breakdown-col">
+        <div class="breakdown-head" data-i18n="bd2_head">Paid by guests, not you</div>
+        <ul class="breakdown-list">
+          <li data-i18n="bd2_li1">Cleaning fee, charged per stay through Airbnb: 375 MAD for a studio or one-bedroom, 400 MAD for two bedrooms or a riad</li>
+          <li data-i18n="bd2_li2">It pays the cleaner and replaces the consumables used during the stay</li>
+          <li data-i18n="bd2_li3">Airbnb collects it directly, so it never forms part of the income we take commission on</li>
+        </ul>
+      </div>
+      <div class="breakdown-col">
+        <div class="breakdown-head" data-i18n="bd3_head">Billed separately</div>
+        <ul class="breakdown-list">
+          <li data-i18n="bd3_li1">Professional photography where the property needs it — a one-off, passed on at the photographer’s price with nothing added. We agree the cost with you before booking anyone</li>
+          <li data-i18n="bd3_li2">Repairs and maintenance at the tradesperson’s price, again with nothing added. Urgent work we act on immediately up to the limit set in your management contract; everything else we clear with you first</li>
+          <li data-i18n="bd3_li3">Optional consumables restocking — our own flat monthly fee if you would rather not manage it: 350, 450 or 600 MAD depending on the size of the property</li>
+        </ul>
+      </div>
+    </div>
+    <p class="pricing-note" data-i18n="pricing_note">★ We are official Airbnb co-hosts. We take on listings at any rating, including ones that are underperforming — an owner with problems worth fixing is often the best person to work with. What we look at is the property itself and whether you are open to changing what is not working.</p>
   </section>
 
   <!-- ABOUT -->
@@ -463,22 +506,22 @@
     </div>
     <div class="about-content">
       <p class="about-label" data-i18n="about_label">Our Story</p>
-      <h2 class="about-title" data-i18n="about_title">Two founders. One city. One mission.</h2>
-      <p class="about-body" data-i18n="about_body">Hajar is from Marrakech — born here, raised here, knows every neighbourhood, every local, every shortcut. Caleb is from Perth, Australia — came for a trip, stayed for good. We started Atlas Host Co because we kept seeing great properties managed badly, and thought we could do it properly. We're young, we move fast, and we're genuinely invested in making your property perform.</p>
+      <h2 class="about-title" data-i18n="about_title">A working host and a Marrakchi on the ground.</h2>
+      <p class="about-body" data-i18n="about_body">Caleb runs his own Airbnb in Perth and holds Superhost status on it. Your listing gets built the same way he built his own — the copy, the pricing, the guest messaging — and he handles all of it, plus your monthly reporting, from Australia. Hajar is from Marrakech and does the part that cannot be done remotely: property walkthroughs, key handovers, cleaners, tradespeople, and dealing with the local paperwork that comes with letting a property here legally. Atlas Host Co is registered in Morocco and invoices properly. Between Perth and Marrakech, one of us is awake for your guests almost around the clock.</p>
       <div class="founders-row">
         <div class="founder">
           <div class="founder-name">Hajar Rahmouni</div>
-          <div class="founder-title" data-i18n="founder1_title">Co-Founder — Marrakech, Morocco</div>
+          <div class="founder-title" data-i18n="founder1_title">Co-Founder — On the ground in Marrakech</div>
           <div class="founder-contact"><a href="https://wa.me/212674739734" target="_blank" rel="noopener" class="whatsapp-link">+212 674 739 734 <span class="wa-badge">WhatsApp ↗</span></a></div>
         </div>
         <div class="founder-divider"></div>
         <div class="founder">
           <div class="founder-name">Caleb Ford</div>
-          <div class="founder-title" data-i18n="founder2_title">Co-Founder — Perth, Australia</div>
+          <div class="founder-title" data-i18n="founder2_title">Co-Founder — Airbnb Superhost, Perth</div>
           <div class="founder-contact"><a href="https://wa.me/61430297755" target="_blank" rel="noopener" class="whatsapp-link">+61 430 297 755 <span class="wa-badge">WhatsApp ↗</span></a></div>
         </div>
       </div>
-      <a href="#contact" class="btn-primary" data-i18n="about_cta">Work With Us</a>
+      <a href="#contact" class="btn-primary" data-i18n="about_cta">Book a Free Assessment</a>
     </div>
   </section>
 
@@ -498,8 +541,15 @@
   <!-- CONTACT -->
   <section class="contact" id="contact">
     <div class="contact-left">
-      <h2 class="contact-title" data-i18n="contact_title">Let's talk about your property</h2>
-      <p class="contact-body" data-i18n="contact_body">Whether you have a riad in the medina or a villa in the Palmeraie, we'd love to learn about your property. Book a free consultation and we'll walk you through everything.</p>
+      <h2 class="contact-title" data-i18n="contact_title">Book a free property assessment</h2>
+      <p class="contact-body" data-i18n="contact_body">A riad in the medina, an apartment in Guéliz or Hivernage, or a villa in the Palmeraie — we manage all three. Tell us about the property and we will come back to you with an honest assessment, at no cost and with no obligation.</p>
+      <div class="assess-head" data-i18n="assess_head">What the assessment covers</div>
+      <ul class="assess-list">
+        <li data-i18n="assess_li1">Whether the property can be let as it stands, and what it would need first</li>
+        <li data-i18n="assess_li2">What getting it ready is likely to cost — photography, repairs, anything missing</li>
+        <li data-i18n="assess_li3">How we would manage it day to day, and what you would keep after our 20%</li>
+        <li data-i18n="assess_li4">A realistic monthly income range for a property like yours, not a best case</li>
+      </ul>
       <div class="contact-info">
         <div class="contact-info-item"><strong data-i18n="ci_email_label">Email</strong><a href="mailto:info@atlashost.co" style="color:inherit;">info@atlashost.co</a></div>
         <div class="contact-info-item"><strong data-i18n="ci_hajar_label">Hajar — Morocco</strong><a href="https://wa.me/212674739734" target="_blank" rel="noopener" class="whatsapp-link">+212 674 739 734 <span class="wa-badge">WhatsApp ↗</span></a></div>
@@ -557,7 +607,7 @@ const T = {
     tab_guide:'Venue Guide',
     hero_eyebrow:'Marrakech, Morocco', hero_line1:'Elevate Your', hero_line2:'Short-Term', hero_line3:'Rental',
     hero_body:'Atlas Host Co is a full-service Airbnb co-hosting company based in Marrakech. We handle everything — listings, guests, pricing, cleaning — for a flat 20% commission. No hidden fees, no hassle. Just your property, performing at its best.',
-    hero_cta1:'Get in Touch', hero_cta2:'Our Services',
+    hero_cta1:'Book a Free Assessment', hero_cta2:'Our Services',
     stat_properties:'Properties Managed', stat_occupancy:'Occupancy Rate', stat_rating_label:'AVERAGE RATING',
     ticker:['Property Management','Guest Communication','Dynamic Pricing','Cleaning & Maintenance','Listing Optimisation','Owner Reporting'],
     services_label:'What We Do', services_title:'Full-service hosting, handled with care',
@@ -567,18 +617,38 @@ const T = {
     svc4_name:'Dynamic Pricing', svc4_desc:"Data-driven pricing that responds to Marrakech's seasonal demand, local events, and platform trends to maximise your revenue year-round.",
     svc5_name:'Cleaning & Maintenance', svc5_desc:'Coordinated hotel-grade housekeeping after every checkout, plus a trusted local network for swift repairs and routine inspections.',
     svc6_name:'Owner Reporting', svc6_desc:'Transparent monthly revenue reports, occupancy analytics, and direct payouts — so you always know exactly how your property is performing.',
-    pricing_label:'Simple, Transparent Pricing', pricing_title:'One commission. Everything included.',
+    pricing_label:'Simple, Transparent Pricing', pricing_title:'One commission. Nothing hidden.',
+    pricing_lead:'Our 20% applies to the rental income you receive from bookings — nothing else. Not the cleaning fee, not repairs, not photography. Here is exactly where every cost sits.',
+    bd1_head:'Covered by our 20%',
+    bd1_li1:'Building your listing, or rebuilding an existing one — copy, SEO, photography direction, pricing setup',
+    bd1_li2:'Every guest message, enquiry, review and check-in, handled by us',
+    bd1_li3:'Dynamic pricing and calendar management',
+    bd1_li4:'Booking and supervising cleaners, tradespeople and inspections',
+    bd1_li5:'Monthly revenue reporting and a clear invoice',
+    bd2_head:'Paid by guests, not you',
+    bd2_li1:'Cleaning fee, charged per stay through Airbnb: 375 MAD for a studio or one-bedroom, 400 MAD for two bedrooms or a riad',
+    bd2_li2:'It pays the cleaner and replaces the consumables used during the stay',
+    bd2_li3:'Airbnb collects it directly, so it never forms part of the income we take commission on',
+    bd3_head:'Billed separately',
+    bd3_li1:'Professional photography where the property needs it — a one-off, passed on at the photographer’s price with nothing added. We agree the cost with you before booking anyone',
+    bd3_li2:'Repairs and maintenance at the tradesperson’s price, again with nothing added. Urgent work we act on immediately up to the limit set in your management contract; everything else we clear with you first',
+    bd3_li3:'Optional consumables restocking — our own flat monthly fee if you would rather not manage it: 350, 450 or 600 MAD depending on the size of the property',
     p1_tag:'New Hosts', p1_name:'Listing Creation', p1_desc:'We build your Airbnb listing from the ground up at no upfront cost. Photography direction, copywriting, and initial pricing setup included.',
     p1_li1:'Full listing setup', p1_li2:'Photography direction', p1_li3:'Copywriting & SEO', p1_li4:'Initial pricing strategy', p1_cta:'Get Started Free',
     p2_tag:'Existing Hosts', p2_name:'Listing Optimisation', p2_desc:'A comprehensive audit and rebuild of your existing listing to improve visibility, conversion, and nightly rate.',
     p2_li1:'Full listing audit', p2_li2:'Rewritten copy & title', p2_li3:'Photo review & reordering', p2_li4:'Pricing restructure', p2_cta:'Book an Audit',
     p3_tag:'All Hosts', p3_name:'Full Management', p3_desc:'Our all-in co-hosting service. We manage everything end-to-end. You receive your income, minus our 20% commission. Cleaning fee paid separately by guests.',
     p3_li1:'Guest communication', p3_li2:'Check-in coordination', p3_li3:'Cleaning & maintenance', p3_li4:'Dynamic pricing', p3_li5:'Monthly reporting', p3_cta:'Start Earning',
-    pricing_note:'★ We are official Airbnb co-hosts. We require a minimum listing rating of 4.8★ to take on existing listings. Not quite there yet? We can help you get there first.',
-    about_label:'Our Story', about_title:'A local and an expat who figured it out together.',
-    about_body:"Hajar is from Marrakech — born here, raised here, knows every neighbourhood, every local, every shortcut. Caleb is from Perth, Australia — came for a trip, stayed for good. We started Atlas Host Co because we kept seeing great properties managed badly, and thought we could do it properly. We\'re young, we move fast, and we\'re genuinely invested in making your property perform.",
-    founder1_title:'Co-Founder — Marrakech, Morocco', founder2_title:'Co-Founder — Perth, Australia', about_cta:'Work With Us',
-    contact_title:"Let's talk about your property", contact_body:"Whether you have a riad in the medina or a villa in the Palmeraie, we'd love to learn about your property. Book a free consultation and we'll walk you through everything.",
+    pricing_note:'★ We are official Airbnb co-hosts. We take on listings at any rating, including ones that are underperforming — an owner with problems worth fixing is often the best person to work with. What we look at is the property itself and whether you are open to changing what is not working.',
+    about_label:'Our Story', about_title:'A working host and a Marrakchi on the ground.',
+    about_body:"Caleb runs his own Airbnb in Perth and holds Superhost status on it. Your listing gets built the same way he built his own — the copy, the pricing, the guest messaging — and he handles all of it, plus your monthly reporting, from Australia. Hajar is from Marrakech and does the part that cannot be done remotely: property walkthroughs, key handovers, cleaners, tradespeople, and dealing with the local paperwork that comes with letting a property here legally. Atlas Host Co is registered in Morocco and invoices properly. Between Perth and Marrakech, one of us is awake for your guests almost around the clock.",
+    founder1_title:'Co-Founder — On the ground in Marrakech', founder2_title:'Co-Founder — Airbnb Superhost, Perth', about_cta:'Book a Free Assessment',
+    contact_title:'Book a free property assessment', contact_body:'A riad in the medina, an apartment in Guéliz or Hivernage, or a villa in the Palmeraie — we manage all three. Tell us about the property and we will come back to you with an honest assessment, at no cost and with no obligation.',
+    assess_head:'What the assessment covers',
+    assess_li1:'Whether the property can be let as it stands, and what it would need first',
+    assess_li2:'What getting it ready is likely to cost — photography, repairs, anything missing',
+    assess_li3:'How we would manage it day to day, and what you would keep after our 20%',
+    assess_li4:'A realistic monthly income range for a property like yours, not a best case',
     ci_email_label:'Email', ci_hajar_label:'Hajar — Morocco', ci_caleb_label:'Caleb — Australia', ci_based_label:'Based in', ci_based_val:'Marrakech-Safi, Morocco',
     form_fname:'First Name', form_fname_ph:'Youssef', form_lname:'Last Name', form_lname_ph:'El Fassi',
     form_email:'Email', form_email_ph:'you@example.com', form_proptype:'Property Type',
@@ -592,7 +662,7 @@ const T = {
     tab_guide:'Guide des Adresses',
     hero_eyebrow:'Marrakech, Maroc', hero_line1:'Valorisez Votre', hero_line2:'Location', hero_line3:'Courte Durée',
     hero_body:"Atlas Host Co est une agence de co-hébergement Airbnb à service complet basée à Marrakech. On gère tout — annonces, voyageurs, tarifs, nettoyage — pour une commission fixe de 20 %. Pas de frais cachés, pas de tracas. Juste votre bien, qui performe à son meilleur.",
-    hero_cta1:'Nous Contacter', hero_cta2:'Nos Services',
+    hero_cta1:'Évaluation Gratuite', hero_cta2:'Nos Services',
     stat_properties:'Biens Gérés', stat_occupancy:"Taux d'Occupation", stat_rating_label:'NOTE MOYENNE',
     ticker:['Gestion Immobilière','Communication Voyageurs','Tarification Dynamique','Nettoyage & Entretien','Optimisation Annonce','Rapports Propriétaire'],
     services_label:'Ce Que Nous Faisons', services_title:'Une gestion complète, avec soin',
@@ -602,18 +672,38 @@ const T = {
     svc4_name:'Tarification Dynamique', svc4_desc:"Une tarification basée sur les données qui s'adapte à la demande saisonnière de Marrakech, aux événements locaux et aux tendances de la plateforme.",
     svc5_name:'Nettoyage & Entretien', svc5_desc:"Ménage hôtelier coordonné après chaque départ, plus un réseau local de confiance pour les réparations rapides et les inspections régulières.",
     svc6_name:'Rapports Propriétaire', svc6_desc:"Rapports mensuels transparents, analyses d'occupation et versements directs — pour que vous sachiez toujours exactement comment se porte votre bien.",
-    pricing_label:'Tarifs Simples et Transparents', pricing_title:'Une commission. Tout inclus.',
+    pricing_label:'Tarifs Simples et Transparents', pricing_title:'Une commission. Rien de caché.',
+    pricing_lead:'Nos 20 % s\'appliquent uniquement aux revenus locatifs que vous percevez des réservations — rien d\'autre. Ni les frais de ménage, ni les réparations, ni la photographie. Voici exactement où se situe chaque coût.',
+    bd1_head:'Compris dans nos 20 %',
+    bd1_li1:'Création de votre annonce, ou refonte d\'une annonce existante — rédaction, SEO, direction photographique, tarification',
+    bd1_li2:'Chaque message, demande, avis et arrivée voyageur, gérés par nous',
+    bd1_li3:'Tarification dynamique et gestion du calendrier',
+    bd1_li4:'Organisation et supervision des ménages, artisans et inspections',
+    bd1_li5:'Rapport de revenus mensuel et facture claire',
+    bd2_head:'Payé par les voyageurs, pas par vous',
+    bd2_li1:'Frais de ménage, facturés par séjour via Airbnb : 375 MAD pour un studio ou une chambre, 400 MAD pour deux chambres ou un riad',
+    bd2_li2:'Ils couvrent le ménage et le remplacement des consommables utilisés pendant le séjour',
+    bd2_li3:'Airbnb les perçoit directement : ils ne font donc jamais partie des revenus sur lesquels nous prenons commission',
+    bd3_head:'Facturé séparément',
+    bd3_li1:'Photographie professionnelle si le bien en a besoin — une seule fois, refacturée au prix du photographe, sans marge. Nous en convenons avec vous avant toute réservation',
+    bd3_li2:'Réparations et entretien au prix de l\'artisan, là encore sans marge. Les urgences sont traitées immédiatement dans la limite fixée par votre contrat de gestion ; tout le reste est validé avec vous au préalable',
+    bd3_li3:'Forfait consommables en option — notre propre forfait mensuel fixe si vous préférez ne pas vous en occuper : 350, 450 ou 600 MAD selon la taille du bien',
     p1_tag:'Nouveaux Hôtes', p1_name:"Création d'Annonce", p1_desc:'Nous créons votre annonce Airbnb de zéro sans frais initiaux. Direction photographique, rédaction et configuration tarifaire incluses.',
     p1_li1:'Création complète', p1_li2:'Direction photographique', p1_li3:'Rédaction & SEO', p1_li4:'Stratégie tarifaire initiale', p1_cta:'Commencer Gratuitement',
     p2_tag:'Hôtes Existants', p2_name:"Optimisation d'Annonce", p2_desc:'Audit complet et refonte de votre annonce existante pour améliorer la visibilité, la conversion et le tarif par nuit.',
     p2_li1:'Audit complet', p2_li2:'Rédaction & titre retravaillés', p2_li3:'Révision & réorganisation photos', p2_li4:'Restructuration tarifaire', p2_cta:'Réserver un Audit',
     p3_tag:'Tous les Hôtes', p3_name:'Gestion Complète', p3_desc:'Notre service de co-hébergement tout-en-un. Nous gérons tout de A à Z. Vous percevez vos revenus moins notre commission de 20 %. Frais de ménage payés par les voyageurs.',
     p3_li1:'Communication voyageurs', p3_li2:'Coordination check-in', p3_li3:'Nettoyage & entretien', p3_li4:'Tarification dynamique', p3_li5:'Rapports mensuels', p3_cta:'Commencer à Gagner',
-    pricing_note:'★ Nous sommes co-hôtes officiels Airbnb. Nous exigeons une note minimale de 4,8★ pour les annonces existantes. Pas encore là ? Nous pouvons vous aider à y parvenir.',
-    about_label:'Notre Histoire', about_title:'Une locale et un expatrié qui ont trouvé la formule ensemble.',
-    about_body:"Hajar est de Marrakech — née ici, élevée ici, elle connaît chaque quartier, chaque habitant, chaque raccourci. Caleb vient de Perth, en Australie — il est arrivé pour un voyage et il est resté. On a créé Atlas Host Co parce qu'on voyait de bons biens mal gérés, et on s'est dit qu'on pouvait faire ça correctement. On est jeunes, on bouge vite, et on est vraiment investis dans la performance de votre bien.",
-    founder1_title:'Co-Fondatrice — Marrakech, Maroc', founder2_title:'Co-Fondateur — Perth, Australie', about_cta:'Travailler Avec Nous',
-    contact_title:'Parlons de votre bien', contact_body:"Que vous ayez un riad dans la médina ou une villa à la Palmeraie, nous serions ravis d'en savoir plus sur votre bien. Réservez une consultation gratuite.",
+    pricing_note:'★ Nous sommes co-hôtes officiels Airbnb. Nous acceptons les annonces quelle que soit leur note, y compris celles qui sous-performent — un propriétaire confronté à de vrais problèmes est souvent le meilleur partenaire. Ce que nous regardons, c\'est le bien lui-même et votre ouverture à changer ce qui ne fonctionne pas.',
+    about_label:'Notre Histoire', about_title:'Un hôte en activité et une Marrakchie sur le terrain.',
+    about_body:"Caleb gère son propre Airbnb à Perth et y détient le statut Superhôte. Votre annonce est construite exactement comme il a construit la sienne — la rédaction, la tarification, la communication voyageurs — et il s'occupe de tout cela, ainsi que de votre reporting mensuel, depuis l'Australie. Hajar est de Marrakech et prend en charge ce qui ne peut pas se faire à distance : visites du bien, remise des clés, ménage, artisans, et les démarches administratives locales liées à la location légale d'un bien ici. Atlas Host Co est enregistrée au Maroc et facture dans les règles. Entre Perth et Marrakech, l'un de nous est éveillé pour vos voyageurs presque à toute heure.",
+    founder1_title:'Co-Fondatrice — Sur le terrain à Marrakech', founder2_title:'Co-Fondateur — Superhôte Airbnb, Perth', about_cta:'Évaluation Gratuite',
+    contact_title:'Évaluation gratuite de votre bien', contact_body:"Un riad dans la médina, un appartement à Guéliz ou à l'Hivernage, ou une villa à la Palmeraie — nous gérons les trois. Parlez-nous de votre bien et nous reviendrons vers vous avec une évaluation honnête, gratuite et sans engagement.",
+    assess_head:'Ce que couvre l\'évaluation',
+    assess_li1:'Si le bien peut être loué en l\'état, et ce qu\'il faudrait faire au préalable',
+    assess_li2:'Ce que la mise en location coûtera réellement — photographie, réparations, équipements manquants',
+    assess_li3:'Comment nous le gérerions au quotidien, et ce qu\'il vous reste après nos 20 %',
+    assess_li4:'Une fourchette de revenus mensuels réaliste pour un bien comme le vôtre, pas un scénario idéal',
     ci_email_label:'Email', ci_hajar_label:'Hajar — Maroc', ci_caleb_label:'Caleb — Australie', ci_based_label:'Basé à', ci_based_val:'Marrakech-Safi, Maroc',
     form_fname:'Prénom', form_fname_ph:'Youssef', form_lname:'Nom', form_lname_ph:'El Fassi',
     form_email:'Email', form_email_ph:'vous@exemple.com', form_proptype:'Type de Bien',
@@ -627,7 +717,7 @@ const T = {
     tab_guide:'دليل الأماكن',
     hero_eyebrow:'مراكش، المغرب', hero_line1:'ارتقِ بـ', hero_line2:'إيجارك', hero_line3:'قصير الأمد',
     hero_body:'أطلس هوست كو شركة استضافة مشتركة متكاملة على Airbnb مقرها مراكش. نتولى كل شيء — الإعلانات، الضيوف، التسعير، التنظيف — مقابل عمولة ثابتة 20٪. لا رسوم خفية، لا متاعب. فقط عقارك يؤدي أفضل ما لديه.',
-    hero_cta1:'تواصل معنا', hero_cta2:'خدماتنا',
+    hero_cta1:'احجز تقييماً مجانياً', hero_cta2:'خدماتنا',
     stat_properties:'عقار مُدار', stat_occupancy:'معدل الإشغال', stat_rating_label:'متوسط التقييم',
     ticker:['إدارة العقارات','التواصل مع الضيوف','التسعير الديناميكي','التنظيف والصيانة','تحسين الإعلان','تقارير المالك'],
     services_label:'ما نقدمه', services_title:'إدارة متكاملة بعناية فائقة',
@@ -637,18 +727,38 @@ const T = {
     svc4_name:'التسعير الديناميكي', svc4_desc:'تسعير مبني على البيانات يستجيب لطلب مراكش الموسمي والأحداث المحلية واتجاهات المنصة لتعظيم دخلك طوال العام.',
     svc5_name:'التنظيف والصيانة', svc5_desc:'خدمات تنظيف بمستوى فندقي منسقة بعد كل مغادرة، إضافة لشبكة محلية موثوقة للإصلاحات السريعة والفحوصات الدورية.',
     svc6_name:'تقارير المالك', svc6_desc:'تقارير شهرية شفافة وتحليلات إشغال ومدفوعات مباشرة — لتكون دائماً على علم تام بأداء عقارك.',
-    pricing_label:'أسعار بسيطة وشفافة', pricing_title:'عمولة واحدة. كل شيء مشمول.',
+    pricing_label:'أسعار بسيطة وشفافة', pricing_title:'عمولة واحدة. لا شيء خفي.',
+    pricing_lead:'عمولتنا البالغة 20٪ تُحتسب فقط على دخل الإيجار الذي تستلمه من الحجوزات — ولا شيء آخر. لا رسوم التنظيف، ولا الإصلاحات، ولا التصوير. وإليك موقع كل تكلفة بالتحديد.',
+    bd1_head:'مشمول ضمن الـ 20٪',
+    bd1_li1:'إنشاء إعلانك أو إعادة بناء إعلان قائم — الكتابة، تحسين المحركات، توجيه التصوير، إعداد التسعير',
+    bd1_li2:'كل رسالة واستفسار ومراجعة وتسجيل دخول، نتولاها نيابة عنك',
+    bd1_li3:'التسعير الديناميكي وإدارة التقويم',
+    bd1_li4:'تنسيق والإشراف على التنظيف والحرفيين والفحوصات',
+    bd1_li5:'تقرير شهري للإيرادات وفاتورة واضحة',
+    bd2_head:'يدفعها الضيوف، لا أنت',
+    bd2_li1:'رسوم التنظيف، تُحتسب عن كل إقامة عبر Airbnb: 375 درهم للاستوديو أو غرفة واحدة، و400 درهم لغرفتين أو رياض',
+    bd2_li2:'تغطي أجر عامل التنظيف وتعويض المواد المستهلكة خلال الإقامة',
+    bd2_li3:'يحصّلها Airbnb مباشرة، ولذلك لا تدخل أبداً ضمن الدخل الذي نأخذ عليه عمولة',
+    bd3_head:'تُفوتر بشكل منفصل',
+    bd3_li1:'تصوير احترافي إذا احتاج العقار ذلك — مرة واحدة، تُحمّل عليك بسعر المصوّر دون أي إضافة. نتفق معك على التكلفة قبل التعاقد مع أي أحد',
+    bd3_li2:'الإصلاحات والصيانة بسعر الحرفي دون أي إضافة أيضاً. الحالات الطارئة نعالجها فوراً في حدود السقف المحدد في عقد الإدارة؛ وما عدا ذلك نأخذ موافقتك أولاً',
+    bd3_li3:'تجديد المواد الاستهلاكية اختيارياً — رسم شهري ثابت خاص بنا إن فضّلت عدم إدارتها: 350 أو 450 أو 600 درهم حسب حجم العقار',
     p1_tag:'المضيفون الجدد', p1_name:'إنشاء الإعلان', p1_desc:'نبني إعلان Airbnb الخاص بك من الصفر بدون أي تكلفة مسبقة. توجيه التصوير والكتابة والإعداد الأولي للتسعير مشمولة.',
     p1_li1:'إعداد الإعلان كاملاً', p1_li2:'توجيه التصوير', p1_li3:'الكتابة وتحسين المحركات', p1_li4:'استراتيجية التسعير الأولية', p1_cta:'ابدأ مجاناً',
     p2_tag:'المضيفون الحاليون', p2_name:'تحسين الإعلان', p2_desc:'مراجعة شاملة وإعادة بناء إعلانك الحالي لتحسين الظهور والتحويل والسعر الليلي.',
     p2_li1:'مراجعة شاملة للإعلان', p2_li2:'إعادة كتابة النص والعنوان', p2_li3:'مراجعة الصور وإعادة ترتيبها', p2_li4:'إعادة هيكلة التسعير', p2_cta:'احجز مراجعة',
     p3_tag:'جميع المضيفين', p3_name:'الإدارة الكاملة', p3_desc:'خدمة الاستضافة المشتركة الشاملة. ندير كل شيء من البداية إلى النهاية. تستلم دخلك مطروحاً منه عمولتنا 20٪. رسوم التنظيف يدفعها الضيوف.',
     p3_li1:'التواصل مع الضيوف', p3_li2:'تنسيق تسجيل الدخول', p3_li3:'التنظيف والصيانة', p3_li4:'التسعير الديناميكي', p3_li5:'التقارير الشهرية', p3_cta:'ابدأ في الكسب',
-    pricing_note:'★ نحن شركاء مضيفون رسميون على Airbnb. نشترط حداً أدنى للتقييم 4.8★ للإعلانات الحالية. لم تصل بعد؟ يمكننا مساعدتك على تحقيق ذلك أولاً.',
-    about_label:'قصتنا', about_title:'محلية ومغترب اكتشفا معًا الطريقة الصحيحة.',
-    about_body:'هاجر من مراكش — وُلدت هنا، ترعرعت هنا، تعرف كل حي وكل شخص وكل طريق مختصر. كالب من بيرث في أستراليا — جاء في رحلة وبقي للأبد. أسسنا أطلس هوست كو لأننا رأينا عقارات رائعة تُدار بشكل سيئ، وقررنا أننا نستطيع أن نفعلها بشكل صحيح. نحن شباب، نتحرك بسرعة، وننخرط بجدية في تحقيق أفضل أداء لعقارك.',
-    founder1_title:'المؤسسة المشاركة — مراكش، المغرب', founder2_title:'المؤسس المشارك — بيرث، أستراليا', about_cta:'اعمل معنا',
-    contact_title:'تحدث إلينا عن عقارك', contact_body:'سواء كان لديك رياض في المدينة العتيقة أو فيلا في البالمراي، يسعدنا التعرف على عقارك. احجز استشارة مجانية وسنرشدك خطوة بخطوة.',
+    pricing_note:'★ نحن شركاء مضيفون رسميون على Airbnb. نقبل الإعلانات مهما كان تقييمها، بما فيها ضعيفة الأداء — فالمالك الذي يواجه مشاكل حقيقية هو غالباً أفضل من نعمل معه. ما يهمنا هو العقار نفسه ومدى استعدادك لتغيير ما لا يعمل.',
+    about_label:'قصتنا', about_title:'مضيف يمارس المهنة، ومراكشية في الميدان.',
+    about_body:'كالب يدير عقاره الخاص على Airbnb في بيرث ويحمل صفة المضيف المتميز (Superhost). يُبنى إعلانك بالطريقة نفسها التي بنى بها إعلانه — النص، التسعير، التواصل مع الضيوف — وهو يتولى ذلك كله، إضافة إلى تقريرك الشهري، من أستراليا. هاجر من مراكش وتتولى ما لا يمكن إنجازه عن بُعد: معاينة العقار، تسليم المفاتيح، التنظيف، الحرفيون، والإجراءات الإدارية المحلية المرتبطة بالتأجير القانوني هنا. أطلس هوست كو مسجلة في المغرب وتصدر فواتير نظامية. بين بيرث ومراكش، أحدنا مستيقظ لضيوفك على مدار الساعة تقريباً.',
+    founder1_title:'المؤسسة المشاركة — في الميدان بمراكش', founder2_title:'المؤسس المشارك — مضيف متميز على Airbnb، بيرث', about_cta:'احجز تقييماً مجانياً',
+    contact_title:'احجز تقييماً مجانياً لعقارك', contact_body:'رياض في المدينة العتيقة، أو شقة في جليز أو الهيفرناج، أو فيلا في البالمراي — ندير الثلاثة. أخبرنا عن عقارك وسنعود إليك بتقييم صريح، مجاناً ودون أي التزام.',
+    assess_head:'ما يشمله التقييم',
+    assess_li1:'هل يمكن تأجير العقار بوضعه الحالي، وما يحتاجه قبل ذلك',
+    assess_li2:'ما ستكلفه التهيئة فعلياً — التصوير، الإصلاحات، وما ينقص من تجهيز',
+    assess_li3:'كيف سنديره يومياً، وما سيتبقى لك بعد عمولتنا 20٪',
+    assess_li4:'نطاق دخل شهري واقعي لعقار مثل عقارك، لا أفضل السيناريوهات',
     ci_email_label:'البريد الإلكتروني', ci_hajar_label:'هاجر — المغرب', ci_caleb_label:'كالب — أستراليا', ci_based_label:'مقرنا', ci_based_val:'مراكش-سافي، المغرب',
     form_fname:'الاسم الأول', form_fname_ph:'يوسف', form_lname:'اسم العائلة', form_lname_ph:'الفاسي',
     form_email:'البريد الإلكتروني', form_email_ph:'you@example.com', form_proptype:'نوع العقار',
